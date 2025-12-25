@@ -71,6 +71,12 @@ export const styles = StyleSheet.create({
         elevation: 4,
         marginBottom: 20,
     },
+    buttonDisabled: {
+        backgroundColor: COLORS.secondary,
+        opacity: 0.5,
+        shadowOpacity: 0,
+        elevation: 0,
+    },
     buttonText: {
         color: COLORS.white,
         fontSize: 18,

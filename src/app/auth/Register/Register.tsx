@@ -18,14 +18,28 @@ import { COLORS } from '@/src/constants/colors';
 export const Register = () => {
     const navigation = useNavigation<any>();
 
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const isFormValid =
+        firstName.trim().length > 0 &&
+        lastName.trim().length > 0 &&
+        email.trim().length > 0 &&
+        password.trim().length > 0 &&
+        confirmPassword.trim().length > 0;
+
     const handleRegister = async () => {
-        if (!name || !email || !password || !confirmPassword) {
+        if (
+            !firstName ||
+            !lastName ||
+            !email ||
+            !password ||
+            !confirmPassword
+        ) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
@@ -76,16 +90,30 @@ export const Register = () => {
                 </View>
 
                 <View style={styles.formContainer}>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Full Name</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Enter your full name"
-                            placeholderTextColor={COLORS.gray}
-                            value={name}
-                            onChangeText={setName}
-                            autoCapitalize="words"
-                        />
+                    <View style={styles.secondContainer}>
+                        <View style={[styles.inputContainer, { flex: 1 }]}>
+                            <Text style={styles.label}>First Name</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Enter your first name"
+                                placeholderTextColor={COLORS.gray}
+                                value={firstName}
+                                onChangeText={setFirstName}
+                                numberOfLines={1}
+                            />
+                        </View>
+
+                        <View style={[styles.inputContainer, { flex: 1 }]}>
+                            <Text style={styles.label}>Last Name</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Enter your last name"
+                                placeholderTextColor={COLORS.gray}
+                                value={lastName}
+                                onChangeText={setLastName}
+                                numberOfLines={1}
+                            />
+                        </View>
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -127,14 +155,19 @@ export const Register = () => {
                     </View>
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[
+                            styles.button,
+                            (!isFormValid || isLoading) && {
+                                opacity: 0.5,
+                            },
+                        ]}
                         onPress={handleRegister}
-                        disabled={isLoading}
+                        disabled={!isFormValid || isLoading}
                     >
                         {isLoading ? (
                             <ActivityIndicator color={COLORS.white} />
                         ) : (
-                            <Text style={styles.buttonText}>Register</Text>
+                            <Text style={styles.buttonText}>Sign Up</Text>
                         )}
                     </TouchableOpacity>
                 </View>

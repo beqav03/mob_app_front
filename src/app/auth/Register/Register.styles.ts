@@ -6,6 +6,12 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.background,
     },
+    secondContainer: {
+        flexDirection: 'row',
+        gap: 12,
+        width: '100%',
+        backgroundColor: COLORS.background,
+    },
     scrollContent: {
         flexGrow: 1,
         justifyContent: 'center',

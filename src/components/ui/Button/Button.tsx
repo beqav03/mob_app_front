@@ -3,7 +3,6 @@ import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import styles from './Button.styles';
 import { COLORS } from '@/src/constants/colors';
 
-
 interface ButtonProps {
     title: string;
     onPress: () => void;
@@ -24,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
             style={[
                 styles.container,
                 styles[variant],
-                disabled && styles.disabled,
+                (loading || disabled) && styles.disabled,
             ]}
             onPress={onPress}
             disabled={disabled || loading}
