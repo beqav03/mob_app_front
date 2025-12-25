@@ -1,6 +1,6 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from './types';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // Navigator Imports
 import TabNavigator from './TabNavigator';
@@ -24,7 +24,7 @@ import Support from '../app/profile/Support/Support';
 import Notifications from '../app/main/Notifications/Notifications';
 import Map from '../app/main/Map/Map';
 
-const Stack = createNativeStackNavigator<MainStackParamList>();
+const Stack = createStackNavigator<MainStackParamList>();
 
 const AppNavigator = () => {
     return (

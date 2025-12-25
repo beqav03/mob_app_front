@@ -1,14 +1,13 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabParamList } from './types';
-import { COLORS } from '../constants/colors';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Screen Imports
 import Home from '../app/main/Home/Home';
-import Search from '../app/main/Search/Search';
-import Saved from '../app/main/Saved/Saved';
-import MyBookings from '../app/profile/MyBookings/MyBookings';
 import Profile from '../app/main/Profile/Profile';
+import Saved from '../app/main/Saved/Saved';
+import Search from '../app/main/Search/Search';
+import MyBookings from '../app/profile/MyBookings/MyBookings';
 
 // Component Imports
 import BottomNav from '../components/navigation/BottomNav/BottomNav';
