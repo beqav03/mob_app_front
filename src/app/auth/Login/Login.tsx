@@ -22,6 +22,8 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const isFormValid = email.trim().length > 0 && password.trim().length > 0;
+
     const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert('Error', 'Please fill in all fields');
@@ -115,9 +117,14 @@ export const Login = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[
+                            styles.button,
+                            (!isFormValid || isLoading) && {
+                                opacity: 0.5,
+                            },
+                        ]}
                         onPress={handleLogin}
-                        disabled={isLoading}
+                        disabled={!isFormValid || isLoading}
                     >
                         {isLoading ? (
                             <ActivityIndicator color={COLORS.white} />

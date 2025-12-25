@@ -9,7 +9,6 @@ export default function App() {
         <SafeAreaProvider>
             <StatusBar style="auto" />
             <AppNavigator />
-            <ChatOverlay />
         </SafeAreaProvider>
     );
 }

@@ -25,6 +25,8 @@ export default StyleSheet.create({
     disabled: {
         backgroundColor: COLORS.secondary,
         opacity: 0.5,
+        shadowOpacity: 0,
+        elevation: 0,
     },
     text: {
         fontSize: 17,
