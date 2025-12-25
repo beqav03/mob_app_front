@@ -1,0 +1,36 @@
+Icons
+The repository uses the lucide-react library for icons.
+
+Used in Navigation (src/constants.ts, src/components/navigation/BottomNav/BottomNav.tsx):
+
+Home
+
+MapPin
+
+Heart
+
+User
+
+Sparkles
+
+Used in Categories (src/constants.ts):
+
+LayoutGrid (All)
+
+UtensilsCrossed (Georgian, Asian)
+
+Wine (European)
+
+Coffee (Cafe)
+
+Used in UI Elements (src/screens/main/HomeScreen/HomeScreen.tsx, src/screens/restaurant/RestaurantScreen/RestaurantScreen.tsx):
+
+Search
+
+Bell
+
+Star
+
+SlidersHorizontal
+
+ChevronLeft

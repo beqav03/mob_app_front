@@ -1,0 +1,95 @@
+import { COLORS } from '@/src/constants/colors';
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.background,
+    },
+    header: {
+        padding: 20,
+        paddingTop: 50,
+        backgroundColor: COLORS.white,
+        alignItems: 'center',
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 5,
+        marginBottom: 20,
+    },
+    avatarContainer: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: COLORS.lightGray,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 15,
+        overflow: 'hidden',
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+    },
+    name: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        marginBottom: 5,
+    },
+    email: {
+        fontSize: 14,
+        color: COLORS.textLight,
+    },
+    menuContainer: {
+        paddingHorizontal: 20,
+    },
+    menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: COLORS.white,
+        padding: 15,
+        borderRadius: 15,
+        marginBottom: 15,
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 5,
+        elevation: 2,
+    },
+    menuIcon: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: COLORS.background,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 15,
+    },
+    menuText: {
+        flex: 1,
+        fontSize: 16,
+        fontWeight: '600',
+        color: COLORS.text,
+    },
+    arrow: {
+        fontSize: 18,
+        color: COLORS.gray,
+    },
+    logoutButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+        padding: 15,
+    },
+    logoutText: {
+        color: COLORS.error,
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 10,
+    },
+});
