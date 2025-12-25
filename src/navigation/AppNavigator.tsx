@@ -1,82 +1,66 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { AuthNavigator } from './AuthNavigator';
-import { TabNavigator } from './TabNavigator';
-// Restaurant & Booking
-import { RestaurantScreen } from '../app/restaurant/Restaurant/Restaurant';
-import { Booking } from '../app/restaurant/Booking/Booking';
-import { TableSelection } from '../app/restaurant/TableSelection/TableSelection';
-import { MenuSelection } from '../app/restaurant/MenuSelection/MenuSelection';
-import { Checkout } from '../app/restaurant/Checkout/Checkout';
-import { Success } from '../app/restaurant/Success/Success';
-// Main
-import { Search } from '../app/main/Search/Search';
-// Profile
-import { EditProfile } from '../app/profile/EditProfile/EditProfile';
-import { PaymentMethods } from '../app/profile/PaymentMethods/PaymentMethods';
-import { MyBookings } from '../app/profile/MyBookings/MyBookings';
-import { Settings } from '../app/profile/Settings/Settings';
-import { Support } from '../app/profile/Support/Support';
-import { OtpVerification } from '../app/profile/OtpVerification/OtpVerification';
-import { ForgotPassword } from '../app/profile/ForgotPassword/ForgotPassword';
-// Security
-import { Security } from '../app/profile/Security/Security';
-import { ChangePassword } from '../app/profile/Security/ChangePassword/ChangePassword';
-import { DeleteAccount } from '../app/profile/Security/DeleteAccount/DeleteAccount';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { MainStackParamList } from './types';
 
-const Stack = createStackNavigator();
+// Navigator Imports
+import TabNavigator from './TabNavigator';
 
-export const AppNavigator = () => {
+// Screen Imports
+import Restaurant from '../app/restaurant/Restaurant/Restaurant';
+import TableSelection from '../app/restaurant/TableSelection/TableSelection';
+import MenuSelection from '../app/restaurant/MenuSelection/MenuSelection';
+import Booking from '../app/restaurant/Booking/Booking';
+import Checkout from '../app/restaurant/Checkout/Checkout';
+import Success from '../app/restaurant/Success/Success';
+import EditProfile from '../app/profile/EditProfile/EditProfile';
+import Settings from '../app/profile/Settings/Settings';
+import Security from '../app/profile/Security/Security';
+import ChangePassword from '../app/profile/Security/ChangePassword/ChangePassword';
+import ChangeEmail from '../app/profile/Security/ChangeEmail/ChangeEmail';
+import ChangePhone from '../app/profile/Security/ChangePhone/ChangePhone';
+import DeleteAccount from '../app/profile/Security/DeleteAccount/DeleteAccount';
+import PaymentMethods from '../app/profile/PaymentMethods/PaymentMethods';
+import Support from '../app/profile/Support/Support';
+import Notifications from '../app/main/Notifications/Notifications';
+import Map from '../app/main/Map/Map';
+
+const Stack = createNativeStackNavigator<MainStackParamList>();
+
+const AppNavigator = () => {
     return (
-        <NavigationContainer>
-            <Stack.Navigator
-                screenOptions={{ headerShown: false }}
-                initialRouteName="Auth"
-            >
-                <Stack.Screen name="Auth" component={AuthNavigator} />
-                <Stack.Screen name="Main" component={TabNavigator} />
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                animation: 'slide_from_right',
+            }}
+        >
+            {/* Main Tabs */}
+            <Stack.Screen name="Tabs" component={TabNavigator} />
 
-                {/* Main Features */}
-                <Stack.Screen name="Search" component={Search} />
+            {/* Restaurant & Booking Flow */}
+            <Stack.Screen name="Restaurant" component={Restaurant} />
+            <Stack.Screen name="TableSelection" component={TableSelection} />
+            <Stack.Screen name="MenuSelection" component={MenuSelection} />
+            <Stack.Screen name="Booking" component={Booking} />
+            <Stack.Screen name="Checkout" component={Checkout} />
+            <Stack.Screen name="Success" component={Success} />
 
-                {/* Restaurant & Booking Flow */}
-                <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-                <Stack.Screen name="Booking" component={Booking} />
-                <Stack.Screen
-                    name="TableSelection"
-                    component={TableSelection}
-                />
-                <Stack.Screen name="MenuSelection" component={MenuSelection} />
-                <Stack.Screen name="Checkout" component={Checkout} />
-                <Stack.Screen name="Success" component={Success} />
+            {/* Profile & Settings */}
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="Security" component={Security} />
+            <Stack.Screen name="ChangePassword" component={ChangePassword} />
+            <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
+            <Stack.Screen name="ChangePhone" component={ChangePhone} />
+            <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
+            <Stack.Screen name="PaymentMethods" component={PaymentMethods} />
+            <Stack.Screen name="Support" component={Support} />
 
-                {/* Profile Sub-screens */}
-                <Stack.Screen name="EditProfile" component={EditProfile} />
-                <Stack.Screen
-                    name="PaymentMethods"
-                    component={PaymentMethods}
-                />
-                <Stack.Screen name="MyBookings" component={MyBookings} />
-                <Stack.Screen name="Settings" component={Settings} />
-                <Stack.Screen name="Support" component={Support} />
-                <Stack.Screen
-                    name="OtpVerification"
-                    component={OtpVerification}
-                />
-                <Stack.Screen
-                    name="ForgotPassword"
-                    component={ForgotPassword}
-                />
-
-                {/* Security Suite */}
-                <Stack.Screen name="Security" component={Security} />
-                <Stack.Screen
-                    name="ChangePassword"
-                    component={ChangePassword}
-                />
-                <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
-            </Stack.Navigator>
-        </NavigationContainer>
+            {/* Utilities */}
+            <Stack.Screen name="Notifications" component={Notifications} />
+            <Stack.Screen name="Map" component={Map} />
+        </Stack.Navigator>
     );
 };
+
+export default AppNavigator;

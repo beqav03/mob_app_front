@@ -1,134 +1,136 @@
-import { MOCK_DELAY } from '../constants/config';
-import { Category, MenuItem, Restaurant } from '../types';
+import { Restaurant, User, Booking, Notification } from '../types';
 
-// Mock Data
-const CATEGORIES: Category[] = [
-    {
-        id: '1',
-        name: 'Burger',
-        image: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png',
-    },
-    {
-        id: '2',
-        name: 'Pizza',
-        image: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
-    },
-    {
-        id: '3',
-        name: 'Sushi',
-        image: 'https://cdn-icons-png.flaticon.com/512/2252/2252075.png',
-    },
-    {
-        id: '4',
-        name: 'Asian',
-        image: 'https://cdn-icons-png.flaticon.com/512/3075/3075929.png',
-    },
-    {
-        id: '5',
-        name: 'Dessert',
-        image: 'https://cdn-icons-png.flaticon.com/512/3075/3075922.png',
-    },
-];
-
-const RESTAURANTS: Restaurant[] = [
-    {
-        id: '1',
-        name: 'Burger King',
-        rating: 4.5,
-        reviews: 120,
-        image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80',
-        distance: '1.2 km',
-        deliveryTime: '20-30 min',
-        minOrder: 10,
-        deliveryFee: 2.5,
-        tags: ['Burger', 'Fast Food', 'American'],
-        latitude: 41.7151,
-        longitude: 44.8271,
-        address: '123 Main St',
-    },
-    {
-        id: '2',
-        name: 'Pizza Hut',
-        rating: 4.2,
-        reviews: 85,
-        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        distance: '2.5 km',
-        deliveryTime: '30-45 min',
-        minOrder: 15,
-        deliveryFee: 3.0,
-        tags: ['Pizza', 'Italian', 'Fast Food'],
-        latitude: 41.7251,
-        longitude: 44.8371,
-        address: '456 Elm St',
-    },
-];
-
-const MENU_ITEMS: MenuItem[] = [
-    {
-        id: '1',
-        restaurantId: '1',
-        name: 'Double Cheeseburger',
-        description:
-            'Two beef patties, cheddar cheese, pickles, onions, ketchup, and mustard.',
-        price: 8.5,
-        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        category: 'Burgers',
-    },
-    {
-        id: '2',
-        restaurantId: '1',
-        name: 'Chicken Nuggets (10pc)',
-        description:
-            'Crispy breaded chicken breast nuggets served with your choice of dip.',
-        price: 6.99,
-        image: 'https://images.unsplash.com/photo-1562967963-ed7b699c3c83?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80',
-        category: 'Sides',
-    },
-    {
-        id: '3',
-        restaurantId: '1',
-        name: 'French Fries',
-        description: 'Classic salted french fries, golden and crispy.',
-        price: 3.5,
-        image: 'https://images.unsplash.com/photo-1573080496987-a199f8cd4054?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        category: 'Sides',
-    },
-];
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export const dataService = {
-    getCategories: async (): Promise<Category[]> => {
-        await sleep(MOCK_DELAY);
-        return CATEGORIES;
-    },
-
-    getRestaurants: async (): Promise<Restaurant[]> => {
-        await sleep(MOCK_DELAY);
-        return RESTAURANTS;
-    },
-
-    getRestaurantById: async (id: string): Promise<Restaurant | undefined> => {
-        await sleep(MOCK_DELAY);
-        return RESTAURANTS.find((r) => r.id === id);
-    },
-
-    getMenuByRestaurantId: async (
-        restaurantId: string,
-    ): Promise<MenuItem[]> => {
-        await sleep(MOCK_DELAY);
-        return MENU_ITEMS.filter((item) => item.restaurantId === restaurantId);
-    },
-
-    getPopularRestaurants: async (): Promise<Restaurant[]> => {
-        await sleep(MOCK_DELAY);
-        return RESTAURANTS.sort((a, b) => b.rating - a.rating).slice(0, 5);
-    },
-
-    // Example for bookings
-    createBooking: async (booking: any): Promise<boolean> => {
-        await sleep(MOCK_DELAY);
-        console.log('Booking created:', booking);
-        return true;
-    },
+export const mockUser: User = {
+    id: 'u1',
+    name: 'Jessica Thompson',
+    email: 'jessica.t@example.com',
+    phone: '+1 234 567 890',
+    avatar: require('../../assets/mobapp_images/img/Jessica T.-User Profile.jpg'),
 };
+
+export const mockRestaurants: Restaurant[] = [
+    {
+        id: 'r1',
+        name: 'Guliani',
+        description:
+            'Authentic Georgian cuisine with a modern twist. Famous for Khachapuri and local wines.',
+        address: '15 Rustaveli Ave, Tbilisi',
+        rating: 4.8,
+        reviewsCount: 124,
+        cuisine: 'Georgian',
+        image: require('../../assets/mobapp_images/img/Guliani-Welcome Screen.jpg'),
+        tables: [
+            {
+                id: 't1',
+                number: '1',
+                capacity: 2,
+                isAvailable: true,
+                position: { x: 50, y: 50 },
+            },
+            {
+                id: 't2',
+                number: '2',
+                capacity: 4,
+                isAvailable: false,
+                position: { x: 150, y: 50 },
+            },
+            {
+                id: 't3',
+                number: '3',
+                capacity: 2,
+                isAvailable: true,
+                position: { x: 50, y: 150 },
+            },
+            {
+                id: 't4',
+                number: '4',
+                capacity: 6,
+                isAvailable: true,
+                position: { x: 150, y: 150 },
+            },
+        ],
+        menu: [
+            {
+                id: 'm1',
+                name: 'Dumplings (Khinkali)',
+                description: 'Traditional spiced meat dumplings.',
+                price: 12.0,
+                category: 'Main',
+                image: require('../../assets/mobapp_images/img/Dumplings.jpg'),
+            },
+            {
+                id: 'm2',
+                name: 'Tiramisu',
+                description: 'Classic Italian coffee-flavored dessert.',
+                price: 8.5,
+                category: 'Dessert',
+                image: require('../../assets/mobapp_images/img/Tiramisu.jpg'),
+            },
+        ],
+    },
+    {
+        id: 'r2',
+        name: 'Stamba',
+        description:
+            'Located in a former publishing house, offering industrial chic vibes and international menu.',
+        address: '14 Kostava St, Tbilisi',
+        rating: 4.9,
+        reviewsCount: 256,
+        cuisine: 'International',
+        image: require('../../assets/mobapp_images/img/Stamba-Featured Card.jpg'),
+        tables: [
+            {
+                id: 'st1',
+                number: '10',
+                capacity: 2,
+                isAvailable: true,
+                position: { x: 20, y: 20 },
+            },
+            {
+                id: 'st2',
+                number: '11',
+                capacity: 4,
+                isAvailable: true,
+                position: { x: 100, y: 20 },
+            },
+        ],
+        menu: [
+            {
+                id: 'm3',
+                name: 'Miso Glazed Salmon',
+                description:
+                    'Fresh salmon with miso glaze and seasonal greens.',
+                price: 24.0,
+                category: 'Main',
+                image: require('../../assets/mobapp_images/img/Miso Glazed Salmon.jpg'),
+            },
+        ],
+    },
+];
+
+export const mockBookings: Booking[] = [
+    {
+        id: 'b1',
+        restaurantId: 'r1',
+        userId: 'u1',
+        tableId: 't2',
+        date: '2024-05-20',
+        time: '19:30',
+        guestsCount: 4,
+        status: 'confirmed',
+        preOrderItems: [{ itemId: 'm1', quantity: 2 }],
+        totalPrice: 24.0,
+    },
+];
+
+export const mockNotifications: Notification[] = [
+    {
+        id: 'n1',
+        userId: 'u1',
+        title: 'Booking Confirmed',
+        message: 'Your table at Guliani for 4 people has been confirmed.',
+        type: 'booking',
+        createdAt: '2024-05-18T10:00:00Z',
+        isRead: false,
+    },
+];

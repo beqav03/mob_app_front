@@ -1,67 +1,133 @@
-import { COLORS } from '@/src/constants/colors';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: COLORS.white,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
     },
-    content: {
-        padding: 20,
+    backButton: {
+        padding: 4,
     },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
+    headerTitle: {
+        fontSize: 18,
+        fontWeight: '700',
         color: COLORS.text,
-        marginBottom: 10,
     },
-    subtitle: {
-        fontSize: 16,
-        color: COLORS.textLight,
-        marginBottom: 30,
-        lineHeight: 24,
+    scrollContent: {
+        padding: 24,
+        flexGrow: 1,
     },
-    inputContainer: {
-        marginBottom: 20,
-    },
-    label: {
-        fontSize: 16,
-        color: COLORS.textLight,
-        marginBottom: 8,
-        fontWeight: '600',
-    },
-    input: {
-        backgroundColor: COLORS.white,
-        borderRadius: 15,
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        fontSize: 16,
-        color: COLORS.text,
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 2,
-    },
-    button: {
-        backgroundColor: COLORS.primary,
-        paddingVertical: 18,
-        borderRadius: 30,
+    illustrationContainer: {
         alignItems: 'center',
         marginTop: 20,
-        elevation: 4,
+        marginBottom: 32,
+    },
+    iconCircle: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: '#F0F7FF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#D1E9FF',
+    },
+    textSection: {
+        alignItems: 'center',
+        marginBottom: 40,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        textAlign: 'center',
+        marginBottom: 12,
+    },
+    subtitle: {
+        fontSize: 15,
+        color: COLORS.gray,
+        textAlign: 'center',
+        lineHeight: 22,
+        paddingHorizontal: 20,
+    },
+    form: {
+        width: '100%',
+    },
+    inputGroup: {
+        marginBottom: 32,
+    },
+    label: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: COLORS.text,
+        marginBottom: 8,
+        marginLeft: 4,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F8FAFC',
+        borderRadius: 16,
+        paddingHorizontal: 16,
+        height: 56,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+    },
+    inputIcon: {
+        marginRight: 12,
+    },
+    input: {
+        flex: 1,
+        fontSize: 16,
+        color: COLORS.text,
+        fontWeight: '500',
+    },
+    submitButton: {
+        backgroundColor: COLORS.primary,
+        height: 56,
+        borderRadius: 16,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
         shadowColor: COLORS.primary,
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.2,
         shadowRadius: 8,
+        elevation: 4,
     },
-    buttonText: {
+    disabledButton: {
+        backgroundColor: COLORS.gray,
+        shadowOpacity: 0,
+        elevation: 0,
+    },
+    submitButtonText: {
         color: COLORS.white,
-        fontSize: 18,
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: 24,
+        borderTopWidth: 1,
+        borderTopColor: '#F1F5F9',
+    },
+    footerText: {
+        fontSize: 14,
+        color: COLORS.gray,
+    },
+    loginLink: {
+        fontSize: 14,
+        color: COLORS.primary,
         fontWeight: 'bold',
     },
 });

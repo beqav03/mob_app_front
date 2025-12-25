@@ -1,34 +1,71 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from './Success.styles';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Calendar, CheckCircle } from 'lucide-react-native';
+import React from 'react';
+import {
+    SafeAreaView,
+    StatusBar,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import { COLORS } from '../../../constants/colors';
+import { MainStackParamList } from '../../../navigation/types';
+import styles from './Success.styles';
 
-export const Success = () => {
-    const navigation = useNavigation<any>();
-
-    const handleHome = () => {
-        // Reset navigation stack to Home
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Main' }],
-        });
-    };
+const Success = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.iconContainer}>
-                <Text style={styles.icon}>🎉</Text>
+            <StatusBar barStyle="dark-content" />
+
+            <View style={styles.content}>
+                <View style={styles.iconWrapper}>
+                    <CheckCircle size={80} color={COLORS.primary} />
+                </View>
+
+                <Text style={styles.title}>Booking Confirmed!</Text>
+                <Text style={styles.subtitle}>
+                    Your table reservation has been successfully placed. We've
+                    sent the details to your email.
+                </Text>
+
+                <View style={styles.summaryBox}>
+                    <View style={styles.summaryItem}>
+                        <Calendar size={20} color={COLORS.gray} />
+                        <View>
+                            <Text style={styles.summaryLabel}>
+                                Reservation Date
+                            </Text>
+                            <Text style={styles.summaryValue}>
+                                Friday, May 25 • 19:30 PM
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
+                <TouchableOpacity
+                    style={styles.mainButton}
+                    onPress={() =>
+                        navigation.navigate('Tabs', { screen: 'MyBookings' })
+                    }
+                >
+                    <Text style={styles.mainButtonText}>View My Bookings</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.secondaryButton}
+                    onPress={() =>
+                        navigation.navigate('Tabs', { screen: 'Home' })
+                    }
+                >
+                    <Text style={styles.secondaryButtonText}>Back to Home</Text>
+                </TouchableOpacity>
             </View>
-
-            <Text style={styles.title}>Success!</Text>
-            <Text style={styles.subtitle}>
-                Your table has been booked successfully. We've sent you a
-                confirmation email with all the details.
-            </Text>
-
-            <TouchableOpacity style={styles.button} onPress={handleHome}>
-                <Text style={styles.buttonText}>Back to Home</Text>
-            </TouchableOpacity>
         </SafeAreaView>
     );
 };
+
+export default Success;

@@ -1,88 +1,175 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 10,
         backgroundColor: COLORS.white,
+        paddingTop: 10,
+        paddingBottom: 20,
+        paddingHorizontal: 20,
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 3,
     },
-    searchContainer: {
+    searchBarWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.inputBackground,
-        borderRadius: 15,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        gap: 12,
     },
-    searchInput: {
+    searchBar: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F1F5F9',
+        borderRadius: 15,
+        paddingHorizontal: 12,
+        height: 50,
+    },
+    input: {
         flex: 1,
         marginLeft: 10,
-        fontSize: 16,
+        fontSize: 15,
         color: COLORS.text,
     },
-    content: {
-        padding: 20,
-    },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        marginBottom: 15,
-    },
-    recentItem: {
-        flexDirection: 'row',
+    filterButton: {
+        width: 50,
+        height: 50,
+        backgroundColor: COLORS.primary,
+        borderRadius: 15,
+        justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: COLORS.lightGray,
     },
-    recentIcon: {
-        marginRight: 15,
-        fontSize: 16,
+    categoryContainer: {
+        marginTop: 15,
+    },
+    categoryList: {
+        paddingHorizontal: 20,
+        gap: 8,
+    },
+    categoryChip: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        backgroundColor: COLORS.white,
+        borderWidth: 1,
+        borderColor: COLORS.lightGray,
+    },
+    activeCategoryChip: {
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
+    },
+    categoryChipText: {
+        fontSize: 13,
+        fontWeight: '600',
         color: COLORS.gray,
     },
-    recentText: {
-        fontSize: 16,
-        color: COLORS.textLight,
-        flex: 1,
+    activeCategoryChipText: {
+        color: COLORS.white,
+    },
+    resultsList: {
+        padding: 20,
+        paddingBottom: 100,
     },
     resultCard: {
         flexDirection: 'row',
         backgroundColor: COLORS.white,
-        borderRadius: 15,
-        padding: 10,
-        marginBottom: 15,
-        alignItems: 'center',
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
+        borderRadius: 18,
+        padding: 12,
+        marginBottom: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.05,
-        shadowRadius: 5,
+        shadowRadius: 10,
         elevation: 2,
     },
     resultImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 10,
-        backgroundColor: COLORS.gray,
+        width: 90,
+        height: 90,
+        borderRadius: 14,
     },
     resultInfo: {
         flex: 1,
         marginLeft: 15,
+        justifyContent: 'center',
+    },
+    resultHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 4,
     },
     resultName: {
         fontSize: 16,
         fontWeight: 'bold',
         color: COLORS.text,
     },
-    resultMeta: {
-        fontSize: 13,
-        color: COLORS.textLight,
-        marginTop: 4,
+    ratingRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+    },
+    ratingText: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    cuisineText: {
+        fontSize: 12,
+        color: COLORS.gray,
+        marginBottom: 10,
+    },
+    statusRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    availabilityBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        backgroundColor: '#F0F7FF',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 6,
+    },
+    availabilityText: {
+        fontSize: 11,
+        color: COLORS.primary,
+        fontWeight: '700',
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 40,
+        marginTop: -50,
+    },
+    emptyIconCircle: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: '#F1F5F9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    emptyTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        marginBottom: 8,
+    },
+    emptySubtitle: {
+        fontSize: 14,
+        color: COLORS.gray,
+        textAlign: 'center',
+        lineHeight: 20,
     },
 });

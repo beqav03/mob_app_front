@@ -1,74 +1,96 @@
-import { COLORS } from '@/src/constants/colors';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+const { width, height } = Dimensions.get('window');
+
+export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.primary,
+        backgroundColor: '#000',
+    },
+    backgroundImage: {
+        width: width,
+        height: height,
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.45)',
     },
     contentContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingHorizontal: 30,
+    },
+    topSection: {
+        alignItems: 'center',
+        marginTop: 60,
     },
     logoContainer: {
-        width: 100,
-        height: 100,
-        backgroundColor: COLORS.white,
-        borderRadius: 50,
+        width: 64,
+        height: 64,
+        borderRadius: 20,
+        backgroundColor: COLORS.primary,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
-        elevation: 5,
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
+        marginBottom: 12,
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.3,
+        shadowRadius: 15,
+        elevation: 10,
     },
-    logoText: {
-        fontSize: 40,
+    brandName: {
+        fontSize: 24,
         fontWeight: 'bold',
-        color: COLORS.primary,
+        color: COLORS.white,
+        letterSpacing: 1,
+    },
+    bottomSection: {
+        marginBottom: 50,
     },
     title: {
-        fontSize: 50,
+        fontSize: 42,
         fontWeight: '800',
         color: COLORS.white,
-        marginBottom: 10,
-        textAlign: 'center',
+        lineHeight: 50,
+        marginBottom: 16,
     },
     subtitle: {
-        fontSize: 18,
+        fontSize: 16,
         color: 'rgba(255, 255, 255, 0.8)',
-        textAlign: 'center',
-        marginBottom: 50,
         lineHeight: 24,
+        marginBottom: 40,
     },
     button: {
-        backgroundColor: COLORS.white,
-        paddingVertical: 18,
-        paddingHorizontal: 30,
-        borderRadius: 30,
-        width: '100%',
+        backgroundColor: COLORS.primary,
+        height: 60,
+        borderRadius: 18,
+        justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
-        elevation: 2,
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
     },
     buttonText: {
-        color: COLORS.primary,
+        color: COLORS.white,
         fontSize: 18,
         fontWeight: 'bold',
     },
-    secondaryButton: {
-        paddingVertical: 15,
-        width: '100%',
-        alignItems: 'center',
+    footerRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 20,
     },
-    secondaryButtonText: {
+    footerText: {
+        color: 'rgba(255, 255, 255, 0.7)',
+        fontSize: 14,
+    },
+    loginLink: {
         color: COLORS.white,
-        fontSize: 17,
-        fontWeight: '600',
+        fontSize: 14,
+        fontWeight: 'bold',
         textDecorationLine: 'underline',
     },
 });

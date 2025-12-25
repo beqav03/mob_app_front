@@ -1,36 +1,44 @@
-export type RootStackParamList = {
-    Auth: undefined;
-    Main: undefined;
-    Restaurant: { restaurantId: string };
-    Booking: { restaurantId: string };
-    TableSelection: {
-        restaurantId: string;
-        guests: number;
-        date: string;
-        time: string;
+export type AuthStackParamList = {
+    Welcome: undefined;
+    Login: undefined;
+    Register: undefined;
+    ForgotPassword: undefined;
+    OtpVerification: {
+        email?: string;
+        phone?: string;
+        type: 'forgot_password' | 'verify_contact';
     };
-    MenuSelection: {
-        restaurantId: string;
-        tableId: string;
-        guests: number;
-        date: string;
-        time: string;
-    };
-    Checkout: {
-        restaurantId: string;
-        tableId: string;
-        items: any[];
-        total: number;
-        date: string;
-        time: string;
-        guests: number;
-    };
-    Success: undefined;
-
-    // Profile screens
-    EditProfile: undefined;
-    PaymentMethods: undefined;
-    MyBookings: undefined;
-    Settings: undefined;
-    Support: undefined;
+    CreateNewPassword: { email: string };
 };
+
+export type TabParamList = {
+    Home: undefined;
+    Search: undefined;
+    Saved: undefined;
+    MyBookings: undefined;
+    Profile: undefined;
+};
+
+export type MainStackParamList = {
+    Tabs: { screen: keyof TabParamList };
+    Restaurant: { restaurantId: string };
+    TableSelection: { restaurantId: string };
+    MenuSelection: { restaurantId: string; tableId: string };
+    Booking: { restaurantId: string; tableId?: string };
+    Checkout: { bookingId: string };
+    Success: { type: 'booking' | 'payment' };
+    EditProfile: undefined;
+    Settings: undefined;
+    Security: undefined;
+    ChangePassword: undefined;
+    ChangeEmail: undefined;
+    ChangePhone: undefined;
+    DeleteAccount: undefined;
+    PaymentMethods: undefined;
+    Support: undefined;
+    VerifyContact: { type: 'email' | 'phone' };
+    Notifications: undefined;
+    Map: undefined;
+};
+
+export type RootStackParamList = AuthStackParamList & MainStackParamList;

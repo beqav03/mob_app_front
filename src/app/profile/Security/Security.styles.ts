@@ -1,41 +1,122 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        backgroundColor: COLORS.white,
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: COLORS.white,
+    },
+    backButton: {
+        padding: 4,
     },
     headerTitle: {
         fontSize: 18,
+        fontWeight: '700',
+        color: COLORS.text,
+    },
+    scrollContent: {
+        paddingBottom: 40,
+    },
+    securityBanner: {
+        backgroundColor: COLORS.white,
+        padding: 24,
+        alignItems: 'center',
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
+        marginBottom: 20,
+    },
+    bannerIconContainer: {
+        width: 64,
+        height: 64,
+        borderRadius: 32,
+        backgroundColor: '#F0F7FF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    bannerTitle: {
+        fontSize: 20,
         fontWeight: 'bold',
         color: COLORS.text,
-        marginLeft: 15,
+        marginBottom: 4,
     },
-    content: {
-        padding: 20,
+    bannerSubtitle: {
+        fontSize: 14,
+        color: COLORS.gray,
+        textAlign: 'center',
+        paddingHorizontal: 20,
+        lineHeight: 20,
+    },
+    section: {
+        marginTop: 10,
+        paddingHorizontal: 20,
+    },
+    sectionTitle: {
+        fontSize: 15,
+        fontWeight: '700',
+        color: COLORS.gray,
+        marginBottom: 12,
+        marginLeft: 4,
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
+    },
+    menuContainer: {
+        backgroundColor: COLORS.white,
+        borderRadius: 16,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.03,
+        shadowRadius: 8,
+        elevation: 2,
     },
     menuItem: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: COLORS.white,
-        padding: 15,
-        borderRadius: 15,
-        marginBottom: 15,
-        elevation: 1,
+        justifyContent: 'space-between',
+        padding: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.lightGray,
     },
-    menuText: {
-        fontSize: 16,
+    noBorder: {
+        borderBottomWidth: 0,
+    },
+    menuLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    iconWrapper: {
+        width: 40,
+        height: 40,
+        borderRadius: 10,
+        backgroundColor: '#F8FAFC',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 12,
+    },
+    menuLabel: {
+        fontSize: 15,
+        fontWeight: '600',
         color: COLORS.text,
-        fontWeight: '500',
+    },
+    footerNote: {
+        fontSize: 12,
+        color: COLORS.gray,
+        marginTop: 12,
+        marginLeft: 4,
+        lineHeight: 18,
     },
 });

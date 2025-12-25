@@ -1,69 +1,134 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
         paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 15,
+        paddingVertical: 20,
+        backgroundColor: COLORS.white,
     },
     title: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: 'bold',
         color: COLORS.text,
     },
+    subtitle: {
+        fontSize: 14,
+        color: COLORS.gray,
+        marginTop: 4,
+    },
     listContent: {
         padding: 20,
+        paddingBottom: 100,
+    },
+    card: {
+        backgroundColor: COLORS.white,
+        borderRadius: 16,
+        marginBottom: 20,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+        elevation: 3,
+    },
+    image: {
+        width: '100%',
+        height: 180,
+    },
+    heartButton: {
+        position: 'absolute',
+        top: 15,
+        right: 15,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    content: {
+        padding: 15,
+    },
+    headerRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 6,
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    ratingBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFF9E5',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+    },
+    ratingText: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        marginLeft: 4,
+    },
+    locationRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    locationText: {
+        fontSize: 13,
+        color: COLORS.gray,
+        marginLeft: 4,
+    },
+    bookButton: {
+        backgroundColor: COLORS.primary,
+        paddingVertical: 12,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    bookButtonText: {
+        color: COLORS.white,
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     emptyContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 100,
+        paddingHorizontal: 40,
     },
-    emptyText: {
-        fontSize: 18,
-        color: COLORS.textLight,
-        marginTop: 10,
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        backgroundColor: COLORS.white,
-        borderRadius: 15,
-        padding: 15,
-        marginBottom: 15,
-        alignItems: 'center',
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 2,
-    },
-    itemImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 10,
-        backgroundColor: COLORS.gray,
-    },
-    itemInfo: {
-        flex: 1,
-        marginLeft: 15,
-    },
-    itemName: {
-        fontSize: 16,
+    emptyTitle: {
+        fontSize: 20,
         fontWeight: 'bold',
         color: COLORS.text,
+        marginTop: 20,
     },
-    itemMeta: {
-        fontSize: 13,
-        color: COLORS.textLight,
-        marginTop: 4,
+    emptySubtitle: {
+        fontSize: 14,
+        color: COLORS.gray,
+        textAlign: 'center',
+        marginTop: 10,
+        lineHeight: 20,
     },
-    heartButton: {
-        padding: 10,
+    exploreButton: {
+        marginTop: 30,
+        backgroundColor: COLORS.primary,
+        paddingHorizontal: 25,
+        paddingVertical: 15,
+        borderRadius: 30,
+    },
+    exploreButtonText: {
+        color: COLORS.white,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });

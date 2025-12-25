@@ -3,90 +3,209 @@ import { COLORS } from '../../../constants/colors';
 
 const { width } = Dimensions.get('window');
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.secondary, // Dark background for floor plan
+        backgroundColor: COLORS.background,
     },
     header: {
-        position: 'absolute',
-        top: 40,
-        left: 20,
-        zIndex: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
         backgroundColor: COLORS.white,
-        padding: 10,
-        borderRadius: 20,
     },
-    legendContainer: {
-        position: 'absolute',
-        top: 40,
-        right: 20,
-        backgroundColor: 'rgba(0,0,0,0.7)',
-        padding: 10,
-        borderRadius: 10,
+    backButton: {
+        padding: 4,
+    },
+    headerTitleContainer: {
+        alignItems: 'center',
+    },
+    headerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    headerSubtitle: {
+        fontSize: 12,
+        color: COLORS.gray,
+    },
+    scrollContent: {
+        padding: 20,
+        paddingBottom: 120,
+    },
+    legend: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 30,
+        backgroundColor: COLORS.white,
+        padding: 15,
+        borderRadius: 16,
     },
     legendItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 5,
+        gap: 8,
     },
-    legendColor: {
-        width: 15,
-        height: 15,
+    legendBox: {
+        width: 14,
+        height: 14,
         borderRadius: 4,
-        marginRight: 8,
+    },
+    availableBox: {
+        backgroundColor: '#F0F7FF',
+        borderWidth: 1,
+        borderColor: COLORS.primary,
+    },
+    selectedBox: {
+        backgroundColor: COLORS.primary,
+    },
+    occupiedBox: {
+        backgroundColor: '#F1F5F9',
     },
     legendText: {
-        color: COLORS.white,
         fontSize: 12,
+        color: COLORS.gray,
+        fontWeight: '500',
     },
-    floorPlan: {
-        flex: 1,
-        marginTop: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
+    floorPlanContainer: {
+        backgroundColor: COLORS.white,
+        borderRadius: 24,
+        padding: 20,
+        minHeight: 400,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
     },
-    table: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: '#555',
-        margin: 10,
+    entranceLabel: {
+        alignSelf: 'center',
+        paddingVertical: 4,
+        paddingHorizontal: 12,
+        backgroundColor: '#F1F5F9',
+        borderRadius: 4,
+        marginBottom: 20,
     },
-    tableRound: {
-        borderRadius: 50,
-    },
-    tableRect: {
-        borderRadius: 8,
-    },
-    tableText: {
-        color: COLORS.white,
+    entranceText: {
+        fontSize: 10,
         fontWeight: 'bold',
+        color: COLORS.gray,
+        letterSpacing: 2,
+    },
+    tablesGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: 15,
+    },
+    tableCard: {
+        width: (width - 110) / 2,
+        height: 100,
+        backgroundColor: '#F0F7FF',
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1.5,
+        borderColor: 'rgba(0, 122, 255, 0.2)',
+    },
+    occupiedTable: {
+        backgroundColor: '#F1F5F9',
+        borderColor: 'transparent',
+    },
+    selectedTable: {
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
+    },
+    tableNumber: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        marginTop: 6,
+    },
+    occupiedText: {
+        color: COLORS.gray,
+    },
+    selectedText: {
+        color: COLORS.white,
+    },
+    capacityBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        marginTop: 4,
+    },
+    capacityText: {
+        fontSize: 11,
+        color: COLORS.gray,
+        fontWeight: '500',
+    },
+    windowLabel: {
+        marginTop: 30,
+        borderTopWidth: 2,
+        borderTopColor: '#E2E8F0',
+        borderStyle: 'dashed',
+        alignItems: 'center',
+        paddingTop: 10,
+    },
+    windowText: {
+        fontSize: 10,
+        color: COLORS.gray,
+        letterSpacing: 2,
+        fontWeight: 'bold',
+    },
+    tipContainer: {
+        flexDirection: 'row',
+        marginTop: 20,
+        paddingHorizontal: 10,
+        gap: 10,
+    },
+    tipText: {
+        fontSize: 12,
+        color: COLORS.gray,
+        lineHeight: 18,
+        flex: 1,
     },
     footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         backgroundColor: COLORS.white,
-        padding: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-    },
-    selectedInfo: {
-        fontSize: 16,
-        color: COLORS.text,
-        marginBottom: 15,
-        textAlign: 'center',
-    },
-    button: {
-        backgroundColor: COLORS.primary,
-        paddingVertical: 18,
-        borderRadius: 30,
+        paddingHorizontal: 20,
+        paddingTop: 15,
+        paddingBottom: 35,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.lightGray,
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
     },
-    buttonDisabled: {
-        backgroundColor: COLORS.gray,
+    selectionInfo: {
+        flex: 1,
     },
-    buttonText: {
-        color: COLORS.white,
+    selectionLabel: {
+        fontSize: 12,
+        color: COLORS.gray,
+    },
+    selectionValue: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    continueButton: {
+        backgroundColor: COLORS.primary,
+        paddingHorizontal: 30,
+        paddingVertical: 15,
+        borderRadius: 15,
+    },
+    disabledButton: {
+        backgroundColor: COLORS.gray,
+    },
+    continueButtonText: {
+        color: COLORS.white,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });

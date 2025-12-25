@@ -1,197 +1,208 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     View,
     Text,
+    Modal,
     TouchableOpacity,
     TextInput,
     FlatList,
-    Animated,
-    Dimensions,
-    Modal,
     KeyboardAvoidingView,
     Platform,
     ActivityIndicator,
 } from 'react-native';
-import { styles } from './ChatOverlay.styles';
-import { ChatMessage } from '@/src/types';
-import { geminiService } from '@/src/services/geminiService';
-import { COLORS } from '@/src/constants/colors';
+import { Sparkles, X, Send, Bot, User } from 'lucide-react-native';
+import { COLORS } from '../../../constants/colors';
+import styles from './ChatOverlay.styles';
 
-const { height } = Dimensions.get('window');
+interface Message {
+    id: string;
+    text: string;
+    sender: 'ai' | 'user';
+    timestamp: Date;
+}
 
-export const ChatOverlay = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<ChatMessage[]>([
+const ChatOverlay = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [messages, setMessages] = useState<Message[]>([
         {
             id: '1',
-            text: "Hi! I'm your AI food assistant. How can I help you today?",
-            sender: 'bot',
+            text: "Hello! I'm your AI Dining Assistant. I can help you find the perfect table or answer questions about your bookings. How can I help you today?",
+            sender: 'ai',
             timestamp: new Date(),
         },
     ]);
-    const [inputText, setInputText] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
-    const slideAnim = useRef(new Animated.Value(height)).current;
     const flatListRef = useRef<FlatList>(null);
 
-    useEffect(() => {
-        if (isOpen) {
-            Animated.spring(slideAnim, {
-                toValue: 0,
-                useNativeDriver: true,
-                damping: 20,
-                mass: 1,
-                stiffness: 100,
-            }).start();
-        } else {
-            Animated.timing(slideAnim, {
-                toValue: height,
-                duration: 300,
-                useNativeDriver: true,
-            }).start();
-        }
-    }, [isOpen]);
-
     const handleSend = async () => {
-        if (!inputText.trim()) return;
+        if (!input.trim()) return;
 
-        const userMsg: ChatMessage = {
+        const userMessage: Message = {
             id: Date.now().toString(),
-            text: inputText,
+            text: input,
             sender: 'user',
             timestamp: new Date(),
         };
 
-        setMessages((prev) => [...prev, userMsg]);
-        setInputText('');
+        setMessages((prev) => [...prev, userMessage]);
+        setInput('');
         setIsLoading(true);
 
-        try {
-            const responseText = await geminiService.sendMessage(userMsg.text);
-
-            const botMsg: ChatMessage = {
+        // Simulated AI Response
+        setTimeout(() => {
+            const aiResponse: Message = {
                 id: (Date.now() + 1).toString(),
-                text: responseText,
-                sender: 'bot',
+                text: "I've checked the availability for you. Guliani has a table for 4 available tonight at 19:30. Would you like me to reserve it?",
+                sender: 'ai',
                 timestamp: new Date(),
             };
-
-            setMessages((prev) => [...prev, botMsg]);
-        } catch (error) {
-            console.error(error);
-            const errorMsg: ChatMessage = {
-                id: (Date.now() + 1).toString(),
-                text: "Sorry, I'm having trouble connecting right now.",
-                sender: 'bot',
-                timestamp: new Date(),
-                isError: true,
-            };
-            setMessages((prev) => [...prev, errorMsg]);
-        } finally {
+            setMessages((prev) => [...prev, aiResponse]);
             setIsLoading(false);
-        }
+        }, 1500);
     };
 
-    const renderItem = ({ item }: { item: ChatMessage }) => (
+    const renderMessage = ({ item }: { item: Message }) => (
         <View
             style={[
-                styles.messageBubble,
-                item.sender === 'user' ? styles.userMessage : styles.botMessage,
+                styles.messageWrapper,
+                item.sender === 'user'
+                    ? styles.userMessageWrapper
+                    : styles.aiMessageWrapper,
             ]}
         >
-            <Text
+            {item.sender === 'ai' && (
+                <View style={styles.aiIconCircle}>
+                    <Bot size={16} color={COLORS.white} />
+                </View>
+            )}
+            <View
                 style={[
-                    styles.messageText,
+                    styles.messageBubble,
                     item.sender === 'user'
-                        ? styles.userMessageText
-                        : styles.botMessageText,
+                        ? styles.userBubble
+                        : styles.aiBubble,
                 ]}
             >
-                {item.text}
-            </Text>
+                <Text
+                    style={[
+                        styles.messageText,
+                        item.sender === 'user'
+                            ? styles.userMessageText
+                            : styles.aiMessageText,
+                    ]}
+                >
+                    {item.text}
+                </Text>
+            </View>
+            {item.sender === 'user' && (
+                <View style={styles.userIconCircle}>
+                    <User size={16} color={COLORS.white} />
+                </View>
+            )}
         </View>
     );
 
     return (
-        <>
-            {!isOpen && (
+        <View style={styles.container}>
+            {/* Floating Sparkle Button */}
+            {!isVisible && (
                 <TouchableOpacity
-                    style={styles.fab}
-                    onPress={() => setIsOpen(true)}
-                    activeOpacity={0.8}
+                    style={styles.floatingButton}
+                    onPress={() => setIsVisible(true)}
+                    activeOpacity={0.9}
                 >
-                    <Text style={styles.fabIcon}>💬</Text>
+                    <Sparkles size={28} color={COLORS.white} />
                 </TouchableOpacity>
             )}
 
+            {/* AI Chat Modal */}
             <Modal
-                visible={isOpen}
-                transparent
-                animationType="none"
-                onRequestClose={() => setIsOpen(false)}
+                visible={isVisible}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={() => setIsVisible(false)}
             >
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                    style={styles.overlayContainer}
-                >
-                    <Animated.View
-                        style={[
-                            styles.chatWindow,
-                            { transform: [{ translateY: slideAnim }] },
-                        ]}
+                <View style={styles.modalOverlay}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={styles.chatContainer}
                     >
-                        <View style={styles.header}>
-                            <Text style={styles.headerTitle}>AI Assistant</Text>
+                        {/* Header */}
+                        <View style={styles.chatHeader}>
+                            <View style={styles.headerLeft}>
+                                <View style={styles.aiBadge}>
+                                    <Sparkles size={16} color={COLORS.white} />
+                                </View>
+                                <View>
+                                    <Text style={styles.headerTitle}>
+                                        AI Assistant
+                                    </Text>
+                                    <Text style={styles.headerStatus}>
+                                        Online • Ready to help
+                                    </Text>
+                                </View>
+                            </View>
                             <TouchableOpacity
+                                onPress={() => setIsVisible(false)}
                                 style={styles.closeButton}
-                                onPress={() => setIsOpen(false)}
                             >
-                                <Text style={styles.closeButtonText}>✕</Text>
+                                <X size={24} color={COLORS.gray} />
                             </TouchableOpacity>
                         </View>
 
-                        <View style={styles.messagesContainer}>
-                            <FlatList
-                                ref={flatListRef}
-                                data={messages}
-                                renderItem={renderItem}
-                                keyExtractor={(item) => item.id}
-                                contentContainerStyle={{ paddingBottom: 20 }}
-                                onContentSizeChange={() =>
-                                    flatListRef.current?.scrollToEnd()
-                                }
-                                showsVerticalScrollIndicator={false}
-                            />
-                        </View>
+                        {/* Messages List */}
+                        <FlatList
+                            ref={flatListRef}
+                            data={messages}
+                            keyExtractor={(item) => item.id}
+                            renderItem={renderMessage}
+                            contentContainerStyle={styles.messagesList}
+                            onContentSizeChange={() =>
+                                flatListRef.current?.scrollToEnd()
+                            }
+                        />
 
-                        <View style={styles.inputContainer}>
-                            <TextInput
-                                style={styles.input}
-                                value={inputText}
-                                onChangeText={setInputText}
-                                placeholder="Ask me anything..."
-                                placeholderTextColor={COLORS.textLight}
-                                multiline
-                            />
-                            <TouchableOpacity
-                                style={styles.sendButton}
-                                onPress={handleSend}
-                                disabled={isLoading || !inputText.trim()}
-                            >
-                                {isLoading ? (
+                        {/* Input Area */}
+                        <View style={styles.inputArea}>
+                            {isLoading && (
+                                <View style={styles.loadingContainer}>
                                     <ActivityIndicator
-                                        color={COLORS.white}
                                         size="small"
+                                        color={COLORS.primary}
                                     />
-                                ) : (
-                                    <Text style={styles.sendButtonText}>→</Text>
-                                )}
-                            </TouchableOpacity>
+                                    <Text style={styles.loadingText}>
+                                        AI is thinking...
+                                    </Text>
+                                </View>
+                            )}
+                            <View style={styles.inputRow}>
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholder="Ask me anything..."
+                                    value={input}
+                                    onChangeText={setInput}
+                                    multiline
+                                />
+                                <TouchableOpacity
+                                    style={[
+                                        styles.sendButton,
+                                        !input.trim() &&
+                                            styles.sendButtonDisabled,
+                                    ]}
+                                    onPress={handleSend}
+                                    disabled={!input.trim() || isLoading}
+                                >
+                                    <Send size={20} color={COLORS.white} />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </Animated.View>
-                </KeyboardAvoidingView>
+                    </KeyboardAvoidingView>
+                </View>
             </Modal>
-        </>
+        </View>
     );
 };
+
+export default ChatOverlay;

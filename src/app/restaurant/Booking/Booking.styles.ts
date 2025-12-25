@@ -1,124 +1,126 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        backgroundColor: COLORS.white,
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: COLORS.white,
+    },
+    backButton: {
+        padding: 4,
     },
     headerTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         color: COLORS.text,
-        marginLeft: 15,
     },
-    content: {
+    scrollContent: {
         padding: 20,
+        paddingBottom: 100,
     },
-    sectionTitle: {
-        fontSize: 18,
+    summaryCard: {
+        backgroundColor: COLORS.white,
+        borderRadius: 24,
+        padding: 24,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
+    },
+    restaurantName: {
+        fontSize: 22,
         fontWeight: 'bold',
         color: COLORS.text,
-        marginTop: 20,
-        marginBottom: 15,
+        marginBottom: 4,
     },
-    guestContainer: {
+    locationRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: COLORS.white,
-        padding: 20,
-        borderRadius: 15,
+        gap: 6,
         marginBottom: 20,
     },
-    guestButton: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        backgroundColor: COLORS.lightGray,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    guestButtonText: {
-        fontSize: 24,
-        color: COLORS.primary,
-        fontWeight: 'bold',
-    },
-    guestCount: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        marginHorizontal: 30,
-    },
-    inputLabel: {
-        fontSize: 16,
-        color: COLORS.textLight,
-        marginBottom: 8,
-        marginTop: 10,
-    },
-    input: {
-        backgroundColor: COLORS.white,
-        padding: 15,
-        borderRadius: 10,
-        fontSize: 16,
-        color: COLORS.text,
-        borderWidth: 1,
-        borderColor: COLORS.lightGray,
-    },
-    timeGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-    },
-    timeSlot: {
-        width: '30%',
-        paddingVertical: 12,
-        backgroundColor: COLORS.white,
-        borderRadius: 10,
-        alignItems: 'center',
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: COLORS.lightGray,
-    },
-    selectedTimeSlot: {
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
-    },
-    timeText: {
+    locationText: {
         fontSize: 14,
+        color: COLORS.gray,
+    },
+    divider: {
+        height: 1,
+        backgroundColor: COLORS.lightGray,
+        marginBottom: 20,
+    },
+    detailsGrid: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    detailItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        flex: 1,
+    },
+    detailLabel: {
+        fontSize: 12,
+        color: COLORS.gray,
+        marginBottom: 2,
+    },
+    detailValue: {
+        fontSize: 15,
+        fontWeight: 'bold',
         color: COLORS.text,
     },
-    selectedTimeText: {
-        color: COLORS.white,
+    section: {
+        marginTop: 30,
+    },
+    sectionTitle: {
+        fontSize: 16,
         fontWeight: 'bold',
+        color: COLORS.text,
+        marginBottom: 12,
+    },
+    policyCard: {
+        backgroundColor: 'rgba(0, 122, 255, 0.05)',
+        padding: 16,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: 'rgba(0, 122, 255, 0.1)',
+    },
+    policyText: {
+        fontSize: 13,
+        color: COLORS.gray,
+        lineHeight: 20,
     },
     footer: {
-        padding: 20,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         backgroundColor: COLORS.white,
+        paddingHorizontal: 20,
+        paddingTop: 15,
+        paddingBottom: 35,
         borderTopWidth: 1,
         borderTopColor: COLORS.lightGray,
     },
-    button: {
+    payButton: {
         backgroundColor: COLORS.primary,
-        paddingVertical: 18,
-        borderRadius: 30,
+        height: 56,
+        borderRadius: 16,
+        justifyContent: 'center',
         alignItems: 'center',
     },
-    buttonText: {
+    payButtonText: {
         color: COLORS.white,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
     },
 });

@@ -1,50 +1,77 @@
-import Button from '@/src/components/ui/Button/Button';
-import { Input } from '@/src/components/ui/Input/Input';
-import { COLORS } from '@/src/constants/colors';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    SafeAreaView,
+    StatusBar,
+    TextInput,
+    ScrollView,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { ChevronLeft, Phone, ShieldCheck } from 'lucide-react-native';
+import { COLORS } from '../../../../constants/colors';
 import styles from './ChangePhone.styles';
 
-const ChangePhoneScreen = () => {
+const ChangePhone = () => {
     const navigation = useNavigation();
-    const [phone, setPhone] = useState('');
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={styles.backButton}
                 >
-                    <Ionicons
-                        name="chevron-back"
-                        size={24}
-                        color={COLORS.black}
-                    />
+                    <ChevronLeft size={28} color={COLORS.text} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Change Phone Number</Text>
+                <Text style={styles.headerTitle}>Change Phone</Text>
+                <View style={{ width: 28 }} />
             </View>
 
-            <View style={styles.content}>
-                <Input
-                    label="New Phone Number"
-                    placeholder="+1 234 567 8900"
-                    value={phone}
-                    onChangeText={setPhone}
-                    keyboardType="phone-pad"
-                />
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+                <View style={styles.illustrationContainer}>
+                    <View style={styles.circle}>
+                        <Phone size={40} color={COLORS.primary} />
+                    </View>
+                </View>
 
-                <View style={styles.spacer} />
+                <Text style={styles.title}>Update Phone Number</Text>
+                <Text style={styles.description}>
+                    Keeping your phone number up to date helps us secure your
+                    account and send important booking notifications.
+                </Text>
 
-                <Button
-                    title="Update Phone Number"
+                <View style={styles.inputGroup}>
+                    <Text style={styles.label}>New Phone Number</Text>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.countryCode}>+1</Text>
+                        <View style={styles.divider} />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="000 000 0000"
+                            keyboardType="phone-pad"
+                        />
+                    </View>
+                </View>
+
+                <TouchableOpacity
+                    style={styles.submitButton}
                     onPress={() => navigation.goBack()}
-                />
-            </View>
+                >
+                    <Text style={styles.submitButtonText}>Send OTP</Text>
+                </TouchableOpacity>
+
+                <View style={styles.secureBadge}>
+                    <ShieldCheck size={14} color={COLORS.gray} />
+                    <Text style={styles.secureText}>
+                        Standard messaging rates may apply
+                    </Text>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
 
-export default ChangePhoneScreen;
+export default ChangePhone;

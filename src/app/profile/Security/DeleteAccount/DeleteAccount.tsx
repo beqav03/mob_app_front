@@ -1,81 +1,93 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    View,
-    Text,
-    TouchableOpacity,
-    SafeAreaView,
-    Alert,
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+  TextInput,
+  ScrollView,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from './DeleteAccount.styles';
-import { COLORS } from '@/src/constants/colors';
+import { ChevronLeft, AlertTriangle, ShieldX } from 'lucide-react-native';
+import { COLORS } from '../../../../constants/colors';
+import styles from './DeleteAccount.styles';
 
-export const DeleteAccount = () => {
-    const navigation = useNavigation<any>();
+const DeleteAccount = () => {
+  const navigation = useNavigation();
+  const [confirmationText, setConfirmationText] = useState('');
 
-    const handleDelete = () => {
-        Alert.alert(
-            'Delete Account',
-            'Are you sure? This action cannot be undone.',
-            [
-                { text: 'Cancel', style: 'cancel' },
-                {
-                    text: 'Delete',
-                    style: 'destructive',
-                    onPress: () => {
-                        // Simulate API call
-                        Alert.alert(
-                            'Account Deleted',
-                            'Your account has been removed.',
-                            [
-                                {
-                                    text: 'OK',
-                                    onPress: () =>
-                                        navigation.reset({
-                                            index: 0,
-                                            routes: [{ name: 'Auth' }],
-                                        }),
-                                },
-                            ],
-                        );
-                    },
-                },
-            ],
-        );
-    };
+  const handleDelete = () => {
+    if (confirmationText.toLowerCase() === 'delete') {
+      // Mock delete logic
+      navigation.getParent()?.navigate('Auth');
+    }
+  };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={{ fontSize: 24, color: COLORS.text }}>←</Text>
-                </TouchableOpacity>
-            </View>
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <ChevronLeft size={28} color={COLORS.text} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Delete Account</Text>
+        <View style={{ width: 28 }} />
+      </View>
 
-            <View style={styles.content}>
-                <Text style={styles.warningIcon}>⚠️</Text>
-                <Text style={styles.title}>Delete Account</Text>
-                <Text style={styles.description}>
-                    Are you sure you want to delete your account? All your data,
-                    bookings, and preferences will be permanently lost.
-                </Text>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.warningCard}>
+          <AlertTriangle size={32} color="#FF3B30" />
+          <Text style={styles.warningTitle}>This action is permanent</Text>
+          <Text style={styles.warningText}>
+            You will lose all your booking history, saved restaurants, and account preferences. This cannot be undone.
+          </Text>
+        </View>
 
-                <TouchableOpacity
-                    style={styles.deleteButton}
-                    onPress={handleDelete}
-                >
-                    <Text style={styles.deleteButtonText}>
-                        Delete My Account
-                    </Text>
-                </TouchableOpacity>
+        <View style={styles.consequences}>
+          <View style={styles.consequenceItem}>
+            <View style={styles.bullet} />
+            <Text style={styles.consequenceText}>All active bookings will be cancelled.</Text>
+          </View>
+          <View style={styles.consequenceItem}>
+            <View style={styles.bullet} />
+            <Text style={styles.consequenceText}>Your saved payment methods will be removed.</Text>
+          </View>
+          <View style={styles.consequenceItem}>
+            <View style={styles.bullet} />
+            <Text style={styles.consequenceText}>You will lose access to loyalty rewards.</Text>
+          </View>
+        </View>
 
-                <TouchableOpacity
-                    style={styles.cancelButton}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Text style={styles.cancelButtonText}>Cancel</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
-    );
+        <View style={styles.form}>
+          <Text style={styles.label}>Type "DELETE" to confirm</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="DELETE"
+            autoCapitalize="characters"
+            value={confirmationText}
+            onChangeText={setConfirmationText}
+          />
+
+          <TouchableOpacity 
+            style={[
+              styles.deleteButton,
+              confirmationText.toLowerCase() !== 'delete' && styles.disabledButton
+            ]}
+            onPress={handleDelete}
+            disabled={confirmationText.toLowerCase() !== 'delete'}
+          >
+            <Text style={styles.deleteButtonText}>Delete My Account</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.cancelButtonText}>I changed my mind</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
+
+export default DeleteAccount;

@@ -1,76 +1,108 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        backgroundColor: COLORS.white,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        elevation: 2,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: COLORS.white,
+    },
+    backButton: {
+        padding: 4,
+    },
+    headerTitleContainer: {
+        alignItems: 'center',
     },
     headerTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         color: COLORS.text,
     },
-    skipButtonText: {
-        fontSize: 16,
-        color: COLORS.textLight,
+    headerSubtitle: {
+        fontSize: 12,
+        color: COLORS.gray,
+    },
+    skipButton: {
+        padding: 8,
+    },
+    skipText: {
+        color: COLORS.gray,
+        fontWeight: '600',
     },
     listContent: {
         padding: 20,
-        paddingBottom: 100,
+        paddingBottom: 120,
     },
-    menuItem: {
+    menuCard: {
         flexDirection: 'row',
         backgroundColor: COLORS.white,
-        borderRadius: 15,
-        padding: 10,
-        marginBottom: 15,
+        borderRadius: 20,
+        padding: 12,
+        marginBottom: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
         elevation: 2,
     },
     menuImage: {
-        width: 80,
-        height: 80,
-        borderRadius: 10,
+        width: 100,
+        height: 100,
+        borderRadius: 16,
     },
     menuInfo: {
         flex: 1,
-        marginLeft: 15,
-        justifyContent: 'space-between',
+        marginLeft: 16,
+        justifyContent: 'center',
     },
     menuName: {
         fontSize: 16,
         fontWeight: 'bold',
         color: COLORS.text,
     },
+    menuDesc: {
+        fontSize: 12,
+        color: COLORS.gray,
+        marginTop: 4,
+        lineHeight: 16,
+    },
+    priceRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 12,
+    },
     menuPrice: {
         fontSize: 16,
         fontWeight: 'bold',
         color: COLORS.primary,
     },
-    qtyContainer: {
+    quantityContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 12,
     },
-    qtyButton: {
-        width: 28,
-        height: 28,
-        borderRadius: 14,
-        backgroundColor: COLORS.lightGray,
+    qtyBtn: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.primary,
+    },
+    primaryBtn: {
+        backgroundColor: 'transparent',
     },
     qtyText: {
-        marginHorizontal: 10,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         color: COLORS.text,
     },
@@ -80,34 +112,59 @@ export const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: COLORS.white,
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingTop: 15,
+        paddingBottom: 35,
         borderTopWidth: 1,
         borderTopColor: COLORS.lightGray,
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    cartInfo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+    },
+    cartIconWrapper: {
+        position: 'relative',
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: '#F0F7FF',
+        justifyContent: 'center',
         alignItems: 'center',
     },
-    totalContainer: {
-        flex: 1,
+    badge: {
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        backgroundColor: COLORS.primary,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: COLORS.white,
     },
-    totalLabel: {
-        fontSize: 14,
-        color: COLORS.textLight,
+    badgeText: {
+        color: COLORS.white,
+        fontSize: 10,
+        fontWeight: 'bold',
     },
-    totalAmount: {
+    totalText: {
         fontSize: 20,
         fontWeight: 'bold',
         color: COLORS.text,
     },
-    checkoutButton: {
+    confirmButton: {
         backgroundColor: COLORS.primary,
+        paddingHorizontal: 24,
         paddingVertical: 15,
-        paddingHorizontal: 30,
-        borderRadius: 30,
+        borderRadius: 15,
     },
-    checkoutButtonText: {
+    confirmButtonText: {
         color: COLORS.white,
-        fontSize: 16,
         fontWeight: 'bold',
+        fontSize: 16,
     },
 });

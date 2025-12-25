@@ -1,121 +1,142 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import {
     View,
     Text,
     TouchableOpacity,
     SafeAreaView,
-    TextInput,
+    StatusBar,
     ScrollView,
-    Alert,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { styles } from './Booking.styles';
-import { COLORS } from '@/src/constants/colors';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+    ChevronLeft,
+    Calendar,
+    Clock,
+    Users,
+    MapPin,
+    CheckCircle,
+} from 'lucide-react-native';
+import { MainStackParamList } from '../../../navigation/types';
+import { mockRestaurants } from '../../../services/dataService';
+import { COLORS } from '../../../constants/colors';
+import styles from './Booking.styles';
 
-const TIME_SLOTS = [
-    '17:00',
-    '17:30',
-    '18:00',
-    '18:30',
-    '19:00',
-    '19:30',
-    '20:00',
-    '20:30',
-    '21:00',
-];
+type BookingRouteProp = RouteProp<MainStackParamList, 'Booking'>;
 
-export const Booking = () => {
-    const navigation = useNavigation<any>();
-    const route = useRoute<any>();
-    const { restaurantId } = route.params || {};
+const Booking = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+    const route = useRoute<BookingRouteProp>();
+    const { restaurantId, tableId } = route.params;
 
-    const [guests, setGuests] = useState(2);
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Simple YYYY-MM-DD
-    const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const restaurant = useMemo(
+        () =>
+            mockRestaurants.find((r) => r.id === restaurantId) ||
+            mockRestaurants[0],
+        [restaurantId],
+    );
 
-    const handleNext = () => {
-        if (!selectedTime) {
-            Alert.alert(
-                'Required',
-                'Please select a time for your reservation.',
-            );
-            return;
-        }
-
-        navigation.navigate('TableSelection', {
-            restaurantId,
-            guests,
-            date,
-            time: selectedTime,
-        });
-    };
+    const table = useMemo(
+        () => restaurant.tables.find((t) => t.id === tableId),
+        [restaurant.tables, tableId],
+    );
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
+
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={{ fontSize: 24, color: COLORS.text }}>←</Text>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.backButton}
+                >
+                    <ChevronLeft size={28} color={COLORS.text} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Reservation Details</Text>
+                <Text style={styles.headerTitle}>Review Booking</Text>
+                <View style={{ width: 28 }} />
             </View>
 
-            <ScrollView contentContainerStyle={styles.content}>
-                <Text style={styles.sectionTitle}>Number of Guests</Text>
-                <View style={styles.guestContainer}>
-                    <TouchableOpacity
-                        style={styles.guestButton}
-                        onPress={() => setGuests(Math.max(1, guests - 1))}
-                    >
-                        <Text style={styles.guestButtonText}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.guestCount}>{guests}</Text>
-                    <TouchableOpacity
-                        style={styles.guestButton}
-                        onPress={() => setGuests(Math.min(10, guests + 1))}
-                    >
-                        <Text style={styles.guestButtonText}>+</Text>
-                    </TouchableOpacity>
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.summaryCard}>
+                    <Text style={styles.restaurantName}>{restaurant.name}</Text>
+                    <View style={styles.locationRow}>
+                        <MapPin size={14} color={COLORS.gray} />
+                        <Text style={styles.locationText}>
+                            {restaurant.address}
+                        </Text>
+                    </View>
+
+                    <View style={styles.divider} />
+
+                    <View style={styles.detailsGrid}>
+                        <View style={styles.detailItem}>
+                            <Calendar size={18} color={COLORS.primary} />
+                            <View>
+                                <Text style={styles.detailLabel}>Date</Text>
+                                <Text style={styles.detailValue}>
+                                    May 25, 2024
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={styles.detailItem}>
+                            <Clock size={18} color={COLORS.primary} />
+                            <View>
+                                <Text style={styles.detailLabel}>Time</Text>
+                                <Text style={styles.detailValue}>19:30 PM</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.detailsGrid}>
+                        <View style={styles.detailItem}>
+                            <Users size={18} color={COLORS.primary} />
+                            <View>
+                                <Text style={styles.detailLabel}>Guests</Text>
+                                <Text style={styles.detailValue}>4 People</Text>
+                            </View>
+                        </View>
+                        <View style={styles.detailItem}>
+                            <CheckCircle size={18} color={COLORS.primary} />
+                            <View>
+                                <Text style={styles.detailLabel}>Table</Text>
+                                <Text style={styles.detailValue}>
+                                    T-{table?.number || 'Any'}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
                 </View>
 
-                <Text style={styles.sectionTitle}>Select Date</Text>
-                <TextInput
-                    style={styles.input}
-                    value={date}
-                    onChangeText={setDate}
-                    placeholder="YYYY-MM-DD"
-                />
-
-                <Text style={styles.sectionTitle}>Select Time</Text>
-                <View style={styles.timeGrid}>
-                    {TIME_SLOTS.map((time) => (
-                        <TouchableOpacity
-                            key={time}
-                            style={[
-                                styles.timeSlot,
-                                selectedTime === time &&
-                                    styles.selectedTimeSlot,
-                            ]}
-                            onPress={() => setSelectedTime(time)}
-                        >
-                            <Text
-                                style={[
-                                    styles.timeText,
-                                    selectedTime === time &&
-                                        styles.selectedTimeText,
-                                ]}
-                            >
-                                {time}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Cancellation Policy</Text>
+                    <View style={styles.policyCard}>
+                        <Text style={styles.policyText}>
+                            Cancel for free up to 24 hours before your
+                            reservation. Cancellations within 24 hours may incur
+                            a $10 fee.
+                        </Text>
+                    </View>
                 </View>
             </ScrollView>
 
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={handleNext}>
-                    <Text style={styles.buttonText}>Find a Table</Text>
+                <TouchableOpacity
+                    style={styles.payButton}
+                    onPress={() =>
+                        navigation.navigate('Checkout', {
+                            bookingId: 'temp_id',
+                        })
+                    }
+                >
+                    <Text style={styles.payButtonText}>Confirm & Checkout</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
 };
+
+export default Booking;

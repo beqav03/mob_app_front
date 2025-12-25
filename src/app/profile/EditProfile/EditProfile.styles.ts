@@ -1,75 +1,129 @@
-import { COLORS } from '@/src/constants/colors';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: COLORS.white,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        backgroundColor: COLORS.white,
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.lightGray,
+    },
+    backButton: {
+        padding: 4,
     },
     headerTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: '700',
         color: COLORS.text,
-        marginLeft: 15,
     },
-    content: {
-        padding: 20,
+    saveButton: {
+        padding: 4,
     },
-    avatarContainer: {
+    scrollContent: {
+        padding: 24,
+    },
+    avatarSection: {
         alignItems: 'center',
-        marginBottom: 30,
+        marginBottom: 32,
+    },
+    avatarWrapper: {
+        position: 'relative',
+        marginBottom: 12,
     },
     avatar: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        borderWidth: 4,
+        borderColor: '#F0F7FF',
+    },
+    cameraBadge: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        backgroundColor: COLORS.primary,
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 3,
+        borderColor: COLORS.white,
     },
     changePhotoText: {
+        fontSize: 14,
         color: COLORS.primary,
-        marginTop: 10,
-        fontSize: 16,
         fontWeight: '600',
     },
-    inputContainer: {
-        marginBottom: 20,
+    form: {
+        width: '100%',
+    },
+    inputGroup: {
+        marginBottom: 24,
     },
     label: {
-        fontSize: 16,
-        color: COLORS.textLight,
-        marginBottom: 8,
+        fontSize: 14,
         fontWeight: '600',
+        color: COLORS.text,
+        marginBottom: 8,
+        marginLeft: 4,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F8FAFC',
+        borderRadius: 16,
+        paddingHorizontal: 16,
+        height: 56,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+    },
+    disabledInput: {
+        backgroundColor: '#F1F5F9', // Muted background
+        borderColor: '#CBD5E1', // Lighter border
+    },
+    inputIcon: {
+        marginRight: 12,
     },
     input: {
-        backgroundColor: COLORS.white,
-        borderRadius: 15,
-        paddingHorizontal: 20,
-        paddingVertical: 15,
+        flex: 1,
         fontSize: 16,
         color: COLORS.text,
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 2,
+        fontWeight: '500',
     },
-    button: {
+    disabledText: {
+        color: COLORS.gray, // Muted text color
+    },
+    helperText: {
+        fontSize: 11,
+        color: COLORS.gray,
+        marginTop: 6,
+        marginLeft: 4,
+        fontStyle: 'italic',
+    },
+    updateButton: {
         backgroundColor: COLORS.primary,
-        paddingVertical: 18,
-        borderRadius: 30,
+        height: 56,
+        borderRadius: 16,
+        justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 16,
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        elevation: 4,
     },
-    buttonText: {
+    updateButtonText: {
         color: COLORS.white,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
     },
 });

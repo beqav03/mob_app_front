@@ -1,21 +1,23 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { AuthStackParamList } from './types';
+
+// Screen Imports
 import { Welcome } from '../app/auth/Welcome/Welcome';
 import { Login } from '../app/auth/Login/Login';
 import { Register } from '../app/auth/Register/Register';
-import { ForgotPassword } from '../app/profile/ForgotPassword/ForgotPassword';
-import { OtpVerification } from '../app/profile/OtpVerification/OtpVerification';
+import ForgotPassword from '../app/profile/ForgotPassword/ForgotPassword';
+import OtpVerification from '../app/profile/OtpVerification/OtpVerification';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
-export const AuthNavigator = () => {
+const AuthNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                cardStyle: { backgroundColor: 'white' },
+                animation: 'slide_from_right',
             }}
-            initialRouteName="Welcome"
         >
             <Stack.Screen name="Welcome" component={Welcome} />
             <Stack.Screen name="Login" component={Login} />
@@ -25,3 +27,5 @@ export const AuthNavigator = () => {
         </Stack.Navigator>
     );
 };
+
+export default AuthNavigator;

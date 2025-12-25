@@ -1,125 +1,179 @@
-import { COLORS } from '@/src/constants/colors';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
 const { width, height } = Dimensions.get('window');
 
-export const styles = StyleSheet.create({
-    overlayContainer: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        justifyContent: 'flex-end',
-    },
-    chatWindow: {
-        width: width,
-        height: height * 0.8,
-        backgroundColor: COLORS.background,
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
-        overflow: 'hidden',
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 15,
-        backgroundColor: COLORS.white,
-        borderBottomWidth: 1,
-        borderBottomColor: COLORS.lightGray,
-    },
-    headerTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: COLORS.text,
-    },
-    closeButton: {
-        padding: 5,
-    },
-    closeButtonText: {
-        fontSize: 24,
-        color: COLORS.textLight,
-    },
-    messagesContainer: {
-        flex: 1,
-        padding: 15,
-    },
-    messageBubble: {
-        maxWidth: '80%',
-        padding: 12,
-        borderRadius: 15,
-        marginBottom: 10,
-    },
-    userMessage: {
-        alignSelf: 'flex-end',
-        backgroundColor: COLORS.primary,
-        borderBottomRightRadius: 2,
-    },
-    botMessage: {
-        alignSelf: 'flex-start',
-        backgroundColor: COLORS.white,
-        borderBottomLeftRadius: 2,
-        borderWidth: 1,
-        borderColor: COLORS.lightGray,
-    },
-    messageText: {
-        fontSize: 16,
-        lineHeight: 22,
-    },
-    userMessageText: {
-        color: COLORS.white,
-    },
-    botMessageText: {
-        color: COLORS.text,
-    },
-    inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 10,
-        backgroundColor: COLORS.white,
-        borderTopWidth: 1,
-        borderTopColor: COLORS.lightGray,
-    },
-    input: {
-        flex: 1,
-        backgroundColor: COLORS.inputBackground,
-        borderRadius: 20,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        fontSize: 16,
-        color: COLORS.text,
-        maxHeight: 100,
-    },
-    sendButton: {
-        marginLeft: 10,
-        width: 44,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: COLORS.primary,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    sendButtonText: {
-        color: COLORS.white,
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    fab: {
+export default StyleSheet.create({
+    container: {
         position: 'absolute',
-        bottom: 100, // Positioned above the tab bar
+        bottom: 100, // Above bottom nav
         right: 20,
+        zIndex: 999,
+    },
+    floatingButton: {
         width: 60,
         height: 60,
         borderRadius: 30,
         backgroundColor: COLORS.primary,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 6,
-        zIndex: 100,
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 10,
     },
-    fabIcon: {
-        fontSize: 30,
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.6)', // Faded background
+        justifyContent: 'flex-end',
+    },
+    chatContainer: {
+        backgroundColor: COLORS.white,
+        height: height * 0.8,
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -10 },
+        shadowOpacity: 0.1,
+        shadowRadius: 20,
+        elevation: 20,
+    },
+    chatHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.lightGray,
+    },
+    headerLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    aiBadge: {
+        width: 40,
+        height: 40,
+        borderRadius: 12,
+        backgroundColor: COLORS.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 12,
+    },
+    headerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    headerStatus: {
+        fontSize: 12,
+        color: '#4CD964',
+        fontWeight: '600',
+    },
+    closeButton: {
+        padding: 4,
+    },
+    messagesList: {
+        padding: 20,
+        paddingBottom: 40,
+    },
+    messageWrapper: {
+        flexDirection: 'row',
+        marginBottom: 20,
+        maxWidth: '85%',
+    },
+    userMessageWrapper: {
+        alignSelf: 'flex-end',
+        flexDirection: 'row',
+    },
+    aiMessageWrapper: {
+        alignSelf: 'flex-start',
+    },
+    aiIconCircle: {
+        width: 28,
+        height: 28,
+        borderRadius: 14,
+        backgroundColor: COLORS.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 8,
+        marginTop: 4,
+    },
+    userIconCircle: {
+        width: 28,
+        height: 28,
+        borderRadius: 14,
+        backgroundColor: COLORS.gray,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 8,
+        marginTop: 4,
+    },
+    messageBubble: {
+        padding: 14,
+        borderRadius: 20,
+    },
+    aiBubble: {
+        backgroundColor: '#F0F7FF',
+        borderTopLeftRadius: 4,
+    },
+    userBubble: {
+        backgroundColor: COLORS.primary,
+        borderTopRightRadius: 4,
+    },
+    messageText: {
+        fontSize: 15,
+        lineHeight: 20,
+    },
+    aiMessageText: {
+        color: COLORS.text,
+    },
+    userMessageText: {
+        color: COLORS.white,
+    },
+    inputArea: {
+        padding: 20,
+        paddingBottom: Platform.OS === 'ios' ? 40 : 20,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.lightGray,
+    },
+    loadingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    loadingText: {
+        fontSize: 12,
+        color: COLORS.gray,
+        marginLeft: 8,
+        fontStyle: 'italic',
+    },
+    inputRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    textInput: {
+        flex: 1,
+        backgroundColor: '#F8FAFC',
+        borderRadius: 24,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        maxHeight: 100,
+        fontSize: 15,
+        color: COLORS.text,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+    },
+    sendButton: {
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: COLORS.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+    sendButtonDisabled: {
+        backgroundColor: COLORS.gray,
     },
 });

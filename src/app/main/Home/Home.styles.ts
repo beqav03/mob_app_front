@@ -1,121 +1,185 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet, Dimensions } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
 const { width } = Dimensions.get('window');
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
+    },
+    scrollContent: {
+        paddingBottom: 100,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
-        paddingTop: 10,
-        paddingBottom: 15,
+        paddingVertical: 15,
     },
-    greeting: {
-        fontSize: 24,
-        fontWeight: 'bold',
+    locationLabel: {
+        fontSize: 12,
+        color: COLORS.gray,
+        marginBottom: 2,
+    },
+    locationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    locationText: {
+        fontSize: 14,
+        fontWeight: '600',
         color: COLORS.text,
+        marginLeft: 4,
     },
-    subGreeting: {
-        fontSize: 16,
-        color: COLORS.textLight,
+    headerIcons: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    profileImage: {
+    iconButton: {
+        marginRight: 15,
+    },
+    profileAvatar: {
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: COLORS.gray,
+        borderWidth: 2,
+        borderColor: COLORS.primary,
+    },
+    searchSection: {
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        marginVertical: 15,
+        gap: 12,
     },
     searchContainer: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: COLORS.white,
-        marginHorizontal: 20,
-        borderRadius: 15,
+        borderRadius: 12,
         paddingHorizontal: 15,
-        paddingVertical: 12,
-        marginBottom: 20,
-        shadowColor: COLORS.black,
+        height: 50,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
-        shadowRadius: 5,
+        shadowRadius: 10,
         elevation: 2,
     },
     searchInput: {
         flex: 1,
         marginLeft: 10,
-        fontSize: 16,
+        fontSize: 14,
         color: COLORS.text,
     },
-    sectionTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        marginLeft: 20,
-        marginBottom: 15,
-    },
-    categoriesContainer: {
-        paddingLeft: 20,
-        paddingBottom: 20,
-    },
-    categoryItem: {
-        alignItems: 'center',
-        marginRight: 20,
-    },
-    categoryImageContainer: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        backgroundColor: COLORS.white,
+    filterButton: {
+        width: 50,
+        height: 50,
+        backgroundColor: COLORS.primary,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 8,
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 2,
     },
-    categoryImage: {
-        width: 40,
-        height: 40,
-        resizeMode: 'contain',
+    categoryContainer: {
+        marginVertical: 10,
+    },
+    categoryContent: {
+        paddingHorizontal: 20,
+        gap: 10,
+    },
+    categoryItem: {
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        borderRadius: 20,
+        backgroundColor: COLORS.white,
+        borderWidth: 1,
+        borderColor: COLORS.lightGray,
+    },
+    categoryItemActive: {
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
     },
     categoryText: {
         fontSize: 14,
-        color: COLORS.text,
+        color: COLORS.gray,
         fontWeight: '500',
     },
-    activeCategory: {
-        backgroundColor: COLORS.primary,
-    },
-    activeCategoryText: {
+    categoryTextActive: {
         color: COLORS.white,
     },
-    restaurantList: {
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         paddingHorizontal: 20,
-        paddingBottom: 100, // Space for bottom nav
+        marginTop: 25,
+        marginBottom: 15,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    seeAllText: {
+        color: COLORS.primary,
+        fontSize: 14,
+        fontWeight: '600',
+    },
+    featuredList: {
+        paddingLeft: 20,
+        paddingRight: 10,
+    },
+    featuredCard: {
+        width: width * 0.7,
+        height: 180,
+        marginRight: 15,
+        borderRadius: 15,
+        overflow: 'hidden',
+    },
+    featuredImage: {
+        width: '100%',
+        height: '100%',
+    },
+    featuredOverlay: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: 15,
+        backgroundColor: 'rgba(0,0,0,0.35)',
+    },
+    featuredName: {
+        color: COLORS.white,
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    featuredRating: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 4,
+    },
+    featuredRatingText: {
+        color: COLORS.white,
+        fontSize: 12,
+        marginLeft: 4,
+        fontWeight: '600',
     },
     restaurantCard: {
         backgroundColor: COLORS.white,
-        borderRadius: 20,
+        marginHorizontal: 20,
         marginBottom: 20,
+        borderRadius: 15,
         overflow: 'hidden',
-        shadowColor: COLORS.black,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 5,
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+        elevation: 3,
     },
     restaurantImage: {
         width: '100%',
-        height: 180,
-        resizeMode: 'cover',
+        height: 150,
     },
     restaurantInfo: {
         padding: 15,
@@ -124,21 +188,19 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 5,
     },
     restaurantName: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
         color: COLORS.text,
-        flex: 1,
     },
-    ratingContainer: {
+    ratingBadge: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.background,
+        backgroundColor: '#FFF9E5',
         paddingHorizontal: 8,
         paddingVertical: 4,
-        borderRadius: 10,
+        borderRadius: 8,
     },
     ratingText: {
         fontSize: 12,
@@ -146,15 +208,34 @@ export const styles = StyleSheet.create({
         color: COLORS.text,
         marginLeft: 4,
     },
-    restaurantMeta: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 5,
+    restaurantCuisine: {
+        fontSize: 13,
+        color: COLORS.gray,
+        marginTop: 4,
     },
-    metaText: {
-        fontSize: 14,
-        color: COLORS.textLight,
-        marginLeft: 4,
-        marginRight: 15,
+    bookingDetails: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 15,
+        paddingTop: 15,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.lightGray,
+    },
+    availableTables: {
+        fontSize: 13,
+        color: COLORS.primary,
+        fontWeight: '600',
+    },
+    bookButton: {
+        backgroundColor: COLORS.primary,
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+        borderRadius: 8,
+    },
+    bookButtonText: {
+        color: COLORS.white,
+        fontSize: 13,
+        fontWeight: 'bold',
     },
 });

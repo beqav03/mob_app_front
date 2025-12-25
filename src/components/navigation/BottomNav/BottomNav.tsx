@@ -1,75 +1,66 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
+import { Home, Search, Heart, User, Calendar } from 'lucide-react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../../../constants/colors';
 import styles from './BottomNav.styles';
-import { COLORS } from '@/src/constants/colors';
 
 const BottomNav: React.FC<BottomTabBarProps> = ({
     state,
-    descriptors,
     navigation,
+    descriptors,
+    insets,
 }) => {
+    const tabs = [
+        { name: 'Home', icon: Home, label: 'Explore' },
+        { name: 'Search', icon: Search, label: 'Search' },
+        { name: 'Saved', icon: Heart, label: 'Saved' },
+        { name: 'MyBookings', icon: Calendar, label: 'Bookings' },
+        { name: 'Profile', icon: User, label: 'Profile' },
+    ];
+
     return (
         <View style={styles.container}>
-            {state.routes.map((route, index) => {
-                const { options } = descriptors[route.key];
+            {tabs.map((tab, index) => {
                 const isFocused = state.index === index;
+                const Icon = tab.icon;
 
                 const onPress = () => {
                     const event = navigation.emit({
                         type: 'tabPress',
-                        target: route.key,
+                        target: state.routes[index].key,
                         canPreventDefault: true,
                     });
 
                     if (!isFocused && !event.defaultPrevented) {
-                        navigation.navigate(route.name);
+                        navigation.navigate(tab.name);
                     }
                 };
 
-                // Icon mapping based on route name
-                let iconName: keyof typeof Ionicons.glyphMap = 'help';
-                if (route.name === 'Home')
-                    iconName = isFocused ? 'home' : 'home-outline';
-                else if (route.name === 'Map')
-                    iconName = isFocused ? 'map' : 'map-outline';
-                else if (route.name === 'Saved')
-                    iconName = isFocused ? 'heart' : 'heart-outline';
-                else if (route.name === 'Notifications')
-                    iconName = isFocused
-                        ? 'notifications'
-                        : 'notifications-outline';
-                else if (route.name === 'Profile')
-                    iconName = isFocused ? 'person' : 'person-outline';
-
                 return (
                     <TouchableOpacity
-                        key={index}
-                        accessibilityRole="button"
-                        accessibilityState={isFocused ? { selected: true } : {}}
-                        accessibilityLabel={options.tabBarAccessibilityLabel}
-                        //testID={options.tabBarTestID}
+                        key={tab.name}
+                        style={styles.tabItem}
                         onPress={onPress}
-                        style={styles.tabButton}
+                        activeOpacity={0.7}
                     >
-                        <View
+                        <Icon
+                            size={24}
+                            color={isFocused ? COLORS.primary : COLORS.gray}
+                            strokeWidth={isFocused ? 2.5 : 2}
+                        />
+                        <Text
                             style={[
-                                styles.iconContainer,
-                                isFocused && styles.focusedIconContainer,
+                                styles.tabLabel,
+                                {
+                                    color: isFocused
+                                        ? COLORS.primary
+                                        : COLORS.gray,
+                                },
                             ]}
                         >
-                            <Ionicons
-                                name={iconName}
-                                size={24}
-                                color={
-                                    isFocused
-                                        ? COLORS.primary
-                                        : COLORS.secondary
-                                }
-                            />
-                            {isFocused && <View style={styles.activeDot} />}
-                        </View>
+                            {tab.label}
+                        </Text>
                     </TouchableOpacity>
                 );
             })}
