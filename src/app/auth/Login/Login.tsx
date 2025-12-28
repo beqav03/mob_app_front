@@ -41,6 +41,7 @@ export const Login = () => {
         // Simulate API Call
         try {
             // Real API Call
+            /*
             const response = await fetch(`${BASE_URL}/api/login/`, {
                 method: 'POST',
                 headers: {
@@ -51,10 +52,12 @@ export const Login = () => {
                     password: password,
                 }),
             });
+            
 
             const data = await response.json();
-
-            if (response.ok) {
+            */
+           const data = { response: { ok: true } }; // Mock response
+            if (data.response.ok) {
                 setIsLoading(false);
                 navigation.reset({
                     index: 0,
@@ -62,7 +65,7 @@ export const Login = () => {
                 });
             } else {
                 setIsLoading(false);
-                Alert.alert('Error', data.detail || 'Invalid credentials');
+                Alert.alert('Error', 'Invalid credentials');
             }
         } catch (error) {
             setIsLoading(false);

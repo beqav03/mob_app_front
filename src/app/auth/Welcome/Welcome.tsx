@@ -4,9 +4,9 @@ import {
     Text,
     TouchableOpacity,
     StatusBar,
-    SafeAreaView,
     ImageBackground,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Utensils } from 'lucide-react-native';
