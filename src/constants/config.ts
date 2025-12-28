@@ -11,4 +11,4 @@ export const GEMINI_MODEL = 'gemini-pro';
 export const CURRENCY_SYMBOL = '$';
 export const TAX_RATE = 0.1; // 10%
 
-export const BASE_URL = 'http://192.168.1.161:8081/api';
+export const BASE_URL = 'exp://192.168.1.161:8081';

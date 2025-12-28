@@ -115,7 +115,7 @@ const Home = () => {
                         onPress={() => navigation.navigate('Profile')}
                     >
                         <Image
-                            source={{ uri: mockUser.avatar }}
+                            source={mockUser.avatar}
                             style={styles.profileAvatar}
                         />
                     </TouchableOpacity>

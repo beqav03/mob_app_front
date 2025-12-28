@@ -101,7 +101,7 @@ const Profile = () => {
                 <View style={styles.header}>
                     <View style={styles.avatarContainer}>
                         <Image
-                            source={{ uri: mockUser.avatar }}
+                            source={mockUser.avatar}
                             style={styles.avatar}
                         />
                         <TouchableOpacity style={styles.editBadge}>

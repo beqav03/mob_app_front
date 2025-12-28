@@ -65,7 +65,7 @@ const EditProfile = () => {
                     <View style={styles.avatarSection}>
                         <View style={styles.avatarWrapper}>
                             <Image
-                                source={{ uri: mockUser.avatar }}
+                                source={mockUser.avatar}
                                 style={styles.avatar}
                             />
                             <TouchableOpacity style={styles.cameraBadge}>
