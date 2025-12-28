@@ -1,64 +1,123 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { RootStackParamList } from './types';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-// Navigators
+import { RootStackParamList } from './types';
 import AuthNavigator from './AuthNavigator';
 import TabNavigator from './TabNavigator';
 
-// Standalone Screens (Import your actual components here)
-import Booking from '../app/restaurant/Booking/Booking';
-import Checkout from '../app/restaurant/Checkout/Checkout';
-import MenuSelection from '../app/restaurant/MenuSelection/MenuSelection';
-import Restaurant from '../app/restaurant/Restaurant/Restaurant';
-import Success from '../app/restaurant/Success/Success';
-import TableSelection from '../app/restaurant/TableSelection/TableSelection';
-// Profile Screens
-import EditProfile from '../app/profile/EditProfile/EditProfile';
-import Settings from '../app/profile/Settings/Settings';
-import Support from '../app/profile/Support/Support';
+// App Screens
+import RestaurantScreen from '../app/restaurant/Restaurant/Restaurant';
+import BookingScreen from '../app/restaurant/Booking/Booking';
+import TableSelectionScreen from '../app/restaurant/TableSelection/TableSelection';
+import MenuSelectionScreen from '../app/restaurant/MenuSelection/MenuSelection';
+import CheckoutScreen from '../app/restaurant/Checkout/Checkout';
+import SuccessScreen from '../app/restaurant/Success/Success';
 
-const Stack = createStackNavigator<RootStackParamList>();
+// Profile Screens
+import EditProfileScreen from '../app/profile/EditProfile/EditProfile';
+import SettingsScreen from '../app/profile/Settings/Settings';
+import SupportScreen from '../app/profile/Support/Support';
+import MyBookingsScreen from '../app/profile/MyBookings/MyBookings';
+import SecurityScreen from '../app/profile/Security/Security';
+import ChangeEmailScreen from '../app/profile/Security/ChangeEmail/ChangeEmail';
+import ChangePasswordScreen from '../app/profile/Security/ChangePassword/ChangePassword';
+import ChangePhoneScreen from '../app/profile/Security/ChangePhone/ChangePhone';
+import DeleteAccountScreen from '../app/profile/Security/DeleteAccount/DeleteAccount';
+import VerifyContactScreen from '../app/profile/VerifyContact/VerifyContact';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
-    // TODO: Replace this with your actual auth state management (Context, Redux, or Firebase listener)
-    // For now, change 'true' to 'false' to test the Login flow.
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    // Simulating auth state - in real app use a hook/context
+    const isAuthenticated = true;
 
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {isAuthenticated ? (
-                // === AUTHENTICATED USER FLOW ===
-                // We use a Group to organize authenticated routes
-                <Stack.Group>
-                    {/* Main Tabs is the entry point */}
-                    <Stack.Screen name="MainTabs" component={TabNavigator} />
+        <SafeAreaProvider>
+            <NavigationContainer>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    {!isAuthenticated ? (
+                        <Stack.Screen name="Auth" component={AuthNavigator} />
+                    ) : (
+                        <>
+                            <Stack.Screen
+                                name="MainTabs"
+                                component={TabNavigator}
+                            />
 
-                    {/* Full Screen Modals / Detail Views */}
-                    {/* These overlay the tabs when navigated to */}
-                    <Stack.Screen name="Restaurant" component={Restaurant} />
-                    <Stack.Screen
-                        name="MenuSelection"
-                        component={MenuSelection}
-                    />
-                    <Stack.Screen
-                        name="TableSelection"
-                        component={TableSelection}
-                    />
-                    <Stack.Screen name="Booking" component={Booking} />
-                    <Stack.Screen name="Checkout" component={Checkout} />
-                    <Stack.Screen name="Success" component={Success} />
+                            {/* Restaurant Flow */}
+                            <Stack.Screen
+                                name="Restaurant"
+                                component={RestaurantScreen}
+                            />
+                            <Stack.Screen
+                                name="Booking"
+                                component={BookingScreen}
+                            />
+                            <Stack.Screen
+                                name="TableSelection"
+                                component={TableSelectionScreen}
+                            />
+                            <Stack.Screen
+                                name="MenuSelection"
+                                component={MenuSelectionScreen}
+                            />
+                            <Stack.Screen
+                                name="Checkout"
+                                component={CheckoutScreen}
+                            />
+                            <Stack.Screen
+                                name="Success"
+                                component={SuccessScreen}
+                            />
 
-                    {/* Profile Details */}
-                    <Stack.Screen name="EditProfile" component={EditProfile} />
-                    <Stack.Screen name="Settings" component={Settings} />
-                    <Stack.Screen name="Support" component={Support} />
-                </Stack.Group>
-            ) : (
-                // === GUEST / LOGGED OUT FLOW ===
-                <Stack.Screen name="Auth" component={AuthNavigator} />
-            )}
-        </Stack.Navigator>
+                            {/* Profile & Settings */}
+                            <Stack.Screen
+                                name="EditProfile"
+                                component={EditProfileScreen}
+                            />
+                            <Stack.Screen
+                                name="Settings"
+                                component={SettingsScreen}
+                            />
+                            <Stack.Screen
+                                name="Support"
+                                component={SupportScreen}
+                            />
+                            <Stack.Screen
+                                name="MyBookings"
+                                component={MyBookingsScreen}
+                            />
+                            <Stack.Screen
+                                name="Security"
+                                component={SecurityScreen}
+                            />
+                            <Stack.Screen
+                                name="ChangeEmail"
+                                component={ChangeEmailScreen}
+                            />
+                            <Stack.Screen
+                                name="ChangePassword"
+                                component={ChangePasswordScreen}
+                            />
+                            <Stack.Screen
+                                name="ChangePhone"
+                                component={ChangePhoneScreen}
+                            />
+                            <Stack.Screen
+                                name="DeleteAccount"
+                                component={DeleteAccountScreen}
+                            />
+                            <Stack.Screen
+                                name="VerifyContact"
+                                component={VerifyContactScreen}
+                            />
+                        </>
+                    )}
+                </Stack.Navigator>
+            </NavigationContainer>
+        </SafeAreaProvider>
     );
 };
 

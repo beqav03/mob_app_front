@@ -19,7 +19,7 @@ import {
     SlidersHorizontal,
     Star,
 } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants, mockUser } from '../../../services/dataService';
 import { Restaurant } from '../../../types';
 import { COLORS } from '../../../constants/colors';
@@ -27,7 +27,7 @@ import styles from './Home.styles';
 
 const Home = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('All');
 
