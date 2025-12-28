@@ -7,9 +7,9 @@ import {
     TouchableOpacity,
     TextInput,
     FlatList,
-    SafeAreaView,
     StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -112,7 +112,7 @@ const Home = () => {
                         <Bell size={24} color={COLORS.text} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Tabs', { screen: 'Profile' })}
+                        onPress={() => navigation.navigate('Profile')}
                     >
                         <Image
                             source={{ uri: mockUser.avatar }}

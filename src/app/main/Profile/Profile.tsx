@@ -5,9 +5,9 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView,
     StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -21,14 +21,14 @@ import {
     Calendar,
     Bell,
 } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockUser } from '../../../services/dataService';
 import { COLORS } from '../../../constants/colors';
 import styles from './Profile.styles';
 
 const Profile = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     const menuItems = [
         {
@@ -44,14 +44,13 @@ const Profile = () => {
                     id: 'bookings',
                     label: 'My Bookings',
                     icon: Calendar,
-                    action: () =>
-                        navigation.navigate('Tabs', { screen: 'MyBookings' }),
+                    action: () => navigation.navigate('MyBookings'),
                 },
                 {
                     id: 'payments',
                     label: 'Payment Methods',
                     icon: CreditCard,
-                    action: () => navigation.navigate('PaymentMethods'),
+                    action: () => navigation.navigate('PaymentMethods' as any),
                 },
             ],
         },
@@ -62,7 +61,7 @@ const Profile = () => {
                     id: 'notifications',
                     label: 'Notifications',
                     icon: Bell,
-                    action: () => navigation.navigate('Notifications'),
+                    action: () => navigation.navigate('Notifications' as any),
                 },
                 {
                     id: 'security',
@@ -101,7 +100,10 @@ const Profile = () => {
                 {/* Profile Header */}
                 <View style={styles.header}>
                     <View style={styles.avatarContainer}>
-                        <Image source={{ uri: mockUser.avatar }} style={styles.avatar} />
+                        <Image
+                            source={{ uri: mockUser.avatar }}
+                            style={styles.avatar}
+                        />
                         <TouchableOpacity style={styles.editBadge}>
                             <Text style={styles.editBadgeText}>Edit</Text>
                         </TouchableOpacity>
@@ -112,7 +114,10 @@ const Profile = () => {
 
                 {/* Menu Sections */}
                 {menuItems.map((section, sectionIdx) => (
-                    <View key={section.title || sectionIdx} style={styles.section}>
+                    <View
+                        key={section.title || sectionIdx}
+                        style={styles.section}
+                    >
                         <Text style={styles.sectionTitle}>{section.title}</Text>
                         <View style={styles.menuContainer}>
                             {section.items.map((item, idx) => (

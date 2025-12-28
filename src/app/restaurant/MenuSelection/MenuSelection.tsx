@@ -3,27 +3,27 @@ import {
     View,
     Text,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
     FlatList,
     Image,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChevronLeft, Plus, Minus, ShoppingBag } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
 import { MenuItem } from '../../../types';
 import { COLORS } from '../../../constants/colors';
 import styles from './MenuSelection.styles';
 
-type MenuSelectionRouteProp = RouteProp<MainStackParamList, 'MenuSelection'>;
+type MenuSelectionRouteProp = RouteProp<RootStackParamList, 'MenuSelection'>;
 
 const MenuSelection = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const route = useRoute<MenuSelectionRouteProp>();
-    const { restaurantId, tableId } = route.params;
+    const { restaurantId, tableId} = route.params;
 
     const restaurant = useMemo(
         () =>

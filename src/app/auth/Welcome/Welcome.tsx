@@ -10,15 +10,14 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Utensils } from 'lucide-react-native';
-import { RootStackParamList } from '../../../navigation/types';
+import { AuthStackParamList } from '../../../navigation/types';
 import styles from './Welcome.styles';
 import { COLORS } from '../../../constants/colors';
 
 type WelcomeScreenNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
+    AuthStackParamList,
     'Welcome'
 >;
-
 export const Welcome = () => {
     const navigation = useNavigation<WelcomeScreenNavigationProp>();
 

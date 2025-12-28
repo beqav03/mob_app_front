@@ -4,12 +4,12 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
     ScrollView,
     Alert,
     ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './Login.styles';
 import { isValidEmail } from '../../../utils/helpers';

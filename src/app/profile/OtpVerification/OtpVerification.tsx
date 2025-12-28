@@ -3,13 +3,13 @@ import {
     View,
     Text,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
     TextInput,
     ScrollView,
     KeyboardAvoidingView,
     Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -28,8 +28,7 @@ const OtpVerification = () => {
     const navigation =
         useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
     const route = useRoute<OtpRouteProp>();
-    const { email, phone, type } = route.params;
-
+    const { email, flow } = route.params;
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [timer, setTimer] = useState(30);
     const inputs = useRef<Array<TextInput | null>>([]);
@@ -65,8 +64,11 @@ const OtpVerification = () => {
     const handleVerify = () => {
         const code = otp.join('');
         if (code.length === 6) {
-            if (type === 'forgot_password' && email) {
-                navigation.navigate('CreateNewPassword', { email });
+            if (flow === 'forgot_password' && email) {
+                navigation.navigate('CreateNewPassword', {
+                    email,
+                    otp: code,
+                });
             } else {
                 navigation.goBack();
             }
@@ -81,8 +83,7 @@ const OtpVerification = () => {
         }
     };
 
-    const contactInfo = email || phone || 'your device';
-
+    const contactInfo = email || 'your device';
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="dark-content" />

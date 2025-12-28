@@ -5,13 +5,13 @@ import {
     FlatList,
     Image,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Star, Heart, MapPin } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
 import { Restaurant } from '../../../types';
 import { COLORS } from '../../../constants/colors';
@@ -19,7 +19,7 @@ import styles from './Saved.styles';
 
 const Saved = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     // Using mockRestaurants as placeholder for saved items
     const savedRestaurants = mockRestaurants;
@@ -99,7 +99,7 @@ const Saved = () => {
                     <TouchableOpacity
                         style={styles.exploreButton}
                         onPress={() =>
-                            navigation.navigate('Tabs', { screen: 'Home' })
+                            navigation.navigate('Home' as any)
                         }
                     >
                         <Text style={styles.exploreButtonText}>

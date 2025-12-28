@@ -3,10 +3,10 @@ import {
     View,
     Text,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
     ScrollView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -17,16 +17,16 @@ import {
     MapPin,
     CheckCircle,
 } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
 import { COLORS } from '../../../constants/colors';
 import styles from './Booking.styles';
 
-type BookingRouteProp = RouteProp<MainStackParamList, 'Booking'>;
+type BookingRouteProp = RouteProp<RootStackParamList, 'Booking'>;
 
 const Booking = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const route = useRoute<BookingRouteProp>();
     const { restaurantId, tableId } = route.params;
 

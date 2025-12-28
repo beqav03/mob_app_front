@@ -3,20 +3,20 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChevronLeft, CreditCard, ShieldCheck } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    SafeAreaView,
     ScrollView,
     StatusBar,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../../constants/colors';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import styles from './Checkout.styles';
 
 const Checkout = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [selectedMethod, setSelectedMethod] = useState('visa');
 
     return (
@@ -116,7 +116,9 @@ const Checkout = () => {
                 <TouchableOpacity
                     style={styles.payButton}
                     onPress={() =>
-                        navigation.navigate('Success', { type: 'booking' })
+                        navigation.navigate('Success', {
+                            bookingId: 'temp_booking_123',
+                        })
                     }
                 >
                     <Text style={styles.payButtonText}>Pay $12.00</Text>

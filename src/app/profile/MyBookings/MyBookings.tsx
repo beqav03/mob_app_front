@@ -17,7 +17,7 @@ import {
     ChevronRight,
     MapPin,
 } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockBookings, mockRestaurants } from '../../../services/dataService';
 import { Booking, Restaurant } from '../../../types';
 import { COLORS } from '../../../constants/colors';
@@ -25,7 +25,7 @@ import styles from './MyBookings.styles';
 
 const MyBookings = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [activeTab, setActiveTab] = useState<'Upcoming' | 'Past'>('Upcoming');
 
     // Filter bookings based on status and date
@@ -61,7 +61,10 @@ const MyBookings = () => {
             <TouchableOpacity
                 style={styles.bookingCard}
                 onPress={() =>
-                    navigation.navigate('Checkout', { bookingId: item.id })
+                    navigation.navigate('Checkout', {
+                        restaurantId: item.restaurantId,
+                        bookingDetails: item,
+                    })
                 }
             >
                 <View style={styles.cardHeader}>
@@ -192,7 +195,7 @@ const MyBookings = () => {
                     <TouchableOpacity
                         style={styles.exploreButton}
                         onPress={() =>
-                            navigation.navigate('Tabs', { screen: 'Home' })
+                            navigation.navigate('MainTabs', { screen: 'Home' })
                         }
                     >
                         <Text style={styles.exploreButtonText}>

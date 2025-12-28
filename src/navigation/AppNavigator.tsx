@@ -1,7 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from './types';
 import AuthNavigator from './AuthNavigator';
@@ -30,94 +28,70 @@ import VerifyContactScreen from '../app/profile/VerifyContact/VerifyContact';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
-    // Simulating auth state - in real app use a hook/context
+    // Simulating auth state
     const isAuthenticated = true;
 
+    // REMOVED: NavigationContainer and SafeAreaProvider
     return (
-        <SafeAreaProvider>
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    {!isAuthenticated ? (
-                        <Stack.Screen name="Auth" component={AuthNavigator} />
-                    ) : (
-                        <>
-                            <Stack.Screen
-                                name="MainTabs"
-                                component={TabNavigator}
-                            />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {!isAuthenticated ? (
+                <Stack.Screen name="Auth" component={AuthNavigator} />
+            ) : (
+                <>
+                    <Stack.Screen name="MainTabs" component={TabNavigator} />
 
-                            {/* Restaurant Flow */}
-                            <Stack.Screen
-                                name="Restaurant"
-                                component={RestaurantScreen}
-                            />
-                            <Stack.Screen
-                                name="Booking"
-                                component={BookingScreen}
-                            />
-                            <Stack.Screen
-                                name="TableSelection"
-                                component={TableSelectionScreen}
-                            />
-                            <Stack.Screen
-                                name="MenuSelection"
-                                component={MenuSelectionScreen}
-                            />
-                            <Stack.Screen
-                                name="Checkout"
-                                component={CheckoutScreen}
-                            />
-                            <Stack.Screen
-                                name="Success"
-                                component={SuccessScreen}
-                            />
+                    {/* Restaurant Flow */}
+                    <Stack.Screen
+                        name="Restaurant"
+                        component={RestaurantScreen}
+                    />
+                    <Stack.Screen name="Booking" component={BookingScreen} />
+                    <Stack.Screen
+                        name="TableSelection"
+                        component={TableSelectionScreen}
+                    />
+                    <Stack.Screen
+                        name="MenuSelection"
+                        component={MenuSelectionScreen}
+                    />
+                    <Stack.Screen name="Checkout" component={CheckoutScreen} />
+                    <Stack.Screen name="Success" component={SuccessScreen} />
 
-                            {/* Profile & Settings */}
-                            <Stack.Screen
-                                name="EditProfile"
-                                component={EditProfileScreen}
-                            />
-                            <Stack.Screen
-                                name="Settings"
-                                component={SettingsScreen}
-                            />
-                            <Stack.Screen
-                                name="Support"
-                                component={SupportScreen}
-                            />
-                            <Stack.Screen
-                                name="MyBookings"
-                                component={MyBookingsScreen}
-                            />
-                            <Stack.Screen
-                                name="Security"
-                                component={SecurityScreen}
-                            />
-                            <Stack.Screen
-                                name="ChangeEmail"
-                                component={ChangeEmailScreen}
-                            />
-                            <Stack.Screen
-                                name="ChangePassword"
-                                component={ChangePasswordScreen}
-                            />
-                            <Stack.Screen
-                                name="ChangePhone"
-                                component={ChangePhoneScreen}
-                            />
-                            <Stack.Screen
-                                name="DeleteAccount"
-                                component={DeleteAccountScreen}
-                            />
-                            <Stack.Screen
-                                name="VerifyContact"
-                                component={VerifyContactScreen}
-                            />
-                        </>
-                    )}
-                </Stack.Navigator>
-            </NavigationContainer>
-        </SafeAreaProvider>
+                    {/* Profile & Settings */}
+                    <Stack.Screen
+                        name="EditProfile"
+                        component={EditProfileScreen}
+                    />
+                    <Stack.Screen name="Settings" component={SettingsScreen} />
+                    <Stack.Screen name="Support" component={SupportScreen} />
+                    <Stack.Screen
+                        name="MyBookings"
+                        component={MyBookingsScreen}
+                    />
+                    <Stack.Screen name="Security" component={SecurityScreen} />
+                    <Stack.Screen
+                        name="ChangeEmail"
+                        component={ChangeEmailScreen}
+                    />
+                    <Stack.Screen
+                        name="ChangePassword"
+                        component={ChangePasswordScreen}
+                    />
+                    <Stack.Screen
+                        name="ChangePhone"
+                        component={ChangePhoneScreen}
+                    />
+                    <Stack.Screen
+                        name="DeleteAccount"
+                        component={DeleteAccountScreen}
+                    />
+                    <Stack.Screen
+                        name="VerifyContact"
+                        component={VerifyContactScreen}
+                    />
+                </>
+            )}
+        </Stack.Navigator>
     );
 };
 

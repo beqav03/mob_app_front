@@ -18,13 +18,13 @@ import {
     Trash2,
     ShieldCheck,
 } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { COLORS } from '../../../constants/colors';
 import styles from './Security.styles';
 
 const Security = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     const securityOptions = [
         {

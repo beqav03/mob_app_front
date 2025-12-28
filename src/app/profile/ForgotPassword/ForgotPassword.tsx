@@ -31,7 +31,7 @@ const ForgotPassword = () => {
         if (email.trim()) {
             navigation.navigate('OtpVerification', {
                 email: email.trim(),
-                type: 'forgot_password',
+                flow: 'forgot_password',
             });
         }
     };

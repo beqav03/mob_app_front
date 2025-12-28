@@ -20,14 +20,14 @@ import {
     View,
 } from 'react-native';
 import { COLORS } from '../../../constants/colors';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
 import { Restaurant } from '../../../types';
 import styles from './Search.styles';
 
 const Search = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [query, setQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
 

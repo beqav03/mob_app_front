@@ -2,13 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Calendar, CheckCircle } from 'lucide-react-native';
 import React from 'react';
-import {
-    SafeAreaView,
-    StatusBar,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../../constants/colors';
 import { MainStackParamList } from '../../../navigation/types';
 import styles from './Success.styles';

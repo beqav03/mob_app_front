@@ -14,7 +14,6 @@ import React, { useMemo, useState } from 'react';
 import {
     Dimensions,
     Image,
-    SafeAreaView,
     ScrollView,
     StatusBar,
     Text,
@@ -22,17 +21,18 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../../constants/colors';
-import { MainStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
-import { Restaurant } from '../../../types';
+import { RootStackParamList } from '../../../navigation/types';
 import styles from './Map.styles';
+import { Restaurant } from '../../../types';
 
 const { width } = Dimensions.get('window');
 
 const Map = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [selectedRestaurant, setSelectedRestaurant] =
         useState<Restaurant | null>(mockRestaurants[0]);
     const [searchQuery, setSearchQuery] = useState('');

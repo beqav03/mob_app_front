@@ -4,7 +4,7 @@ import { Booking } from '../types';
 
 export type RootStackParamList = {
     Auth: NavigatorScreenParams<AuthStackParamList>;
-    MainTabs: undefined;
+    MainTabs: NavigatorScreenParams<TabParamList>;
     Restaurant: { restaurantId: string };
     Booking: { restaurantId: string };
     TableSelection: { restaurantId: string; bookingDetails: Partial<Booking> };
