@@ -8,8 +8,6 @@ import {
     ScrollView,
     TextInput,
     LayoutAnimation,
-    Platform,
-    UIManager,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -25,13 +23,6 @@ import {
 } from 'lucide-react-native';
 import { COLORS } from '../../../constants/colors';
 import styles from './Support.styles';
-
-if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental
-) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 const Support = () => {
     const navigation = useNavigation();
