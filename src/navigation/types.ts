@@ -6,12 +6,12 @@ export type RootStackParamList = {
     Auth: NavigatorScreenParams<AuthStackParamList>;
     MainTabs: NavigatorScreenParams<TabParamList>;
     Restaurant: { restaurantId: string };
-    Booking: { restaurantId: string };
-    TableSelection: { restaurantId: string; bookingDetails: Partial<Booking> };
-    MenuSelection: { restaurantId: string; bookingDetails: Partial<Booking> };
-    Checkout: { restaurantId: string; bookingDetails: Booking };
+    TableSelection: { restaurantId: string };
+    MenuSelection: { restaurantId: string; tableId: string };
+    Booking: { restaurantId: string; tableId: string };
+    Checkout: { restaurantId: string; bookingId: string };
     Success: { bookingId: string };
-    // Profile & Settings screens are often in the root stack for easy access
+    // ... rest of your screens
     EditProfile: undefined;
     Settings: undefined;
     Support: undefined;

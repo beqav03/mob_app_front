@@ -63,7 +63,7 @@ const MyBookings = () => {
                 onPress={() =>
                     navigation.navigate('Checkout', {
                         restaurantId: item.restaurantId,
-                        bookingDetails: item,
+                        bookingId: item.id,
                     })
                 }
             >

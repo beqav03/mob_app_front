@@ -80,7 +80,7 @@ const Home = () => {
                     <TouchableOpacity
                         style={styles.bookButton}
                         onPress={() =>
-                            navigation.navigate('Booking', {
+                            navigation.navigate('Restaurant', {
                                 restaurantId: item.id,
                             })
                         }

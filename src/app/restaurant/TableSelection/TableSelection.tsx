@@ -10,16 +10,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChevronLeft, Info, Users, Armchair } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
 import { COLORS } from '../../../constants/colors';
 import styles from './TableSelection.styles';
 
-type TableSelectionRouteProp = RouteProp<MainStackParamList, 'TableSelection'>;
+type TableSelectionRouteProp = RouteProp<RootStackParamList, 'TableSelection'>;
 
 const TableSelection = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const route = useRoute<TableSelectionRouteProp>();
     const { restaurantId } = route.params;
 

@@ -22,16 +22,16 @@ import {
     ChevronRight,
     Heart,
 } from 'lucide-react-native';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { mockRestaurants } from '../../../services/dataService';
 import { COLORS } from '../../../constants/colors';
 import styles from './Restaurant.styles';
 
-type RestaurantRouteProp = RouteProp<MainStackParamList, 'Restaurant'>;
+type RestaurantRouteProp = RouteProp<RootStackParamList, 'Restaurant'>;
 
 const Restaurant = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const route = useRoute<RestaurantRouteProp>();
     const { restaurantId } = route.params;
 

@@ -59,7 +59,7 @@ const Saved = () => {
                 <TouchableOpacity
                     style={styles.bookButton}
                     onPress={() =>
-                        navigation.navigate('Booking', {
+                        navigation.navigate('Restaurant', {
                             restaurantId: item.id,
                         })
                     }
@@ -98,9 +98,7 @@ const Saved = () => {
                     </Text>
                     <TouchableOpacity
                         style={styles.exploreButton}
-                        onPress={() =>
-                            navigation.navigate('Home' as any)
-                        }
+                        onPress={() => navigation.navigate('Home' as any)}
                     >
                         <Text style={styles.exploreButtonText}>
                             Explore Restaurants

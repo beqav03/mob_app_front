@@ -5,12 +5,12 @@ import React from 'react';
 import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../../constants/colors';
-import { MainStackParamList } from '../../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import styles from './Success.styles';
 
 const Success = () => {
     const navigation =
-        useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     return (
         <SafeAreaView style={styles.container}>
@@ -43,9 +43,7 @@ const Success = () => {
 
                 <TouchableOpacity
                     style={styles.mainButton}
-                    onPress={() =>
-                        navigation.navigate('Tabs', { screen: 'MyBookings' })
-                    }
+                    onPress={() => navigation.navigate('MyBookings')}
                 >
                     <Text style={styles.mainButtonText}>View My Bookings</Text>
                 </TouchableOpacity>
@@ -53,7 +51,7 @@ const Success = () => {
                 <TouchableOpacity
                     style={styles.secondaryButton}
                     onPress={() =>
-                        navigation.navigate('Tabs', { screen: 'Home' })
+                        navigation.navigate('MainTabs', { screen: 'Home' })
                     }
                 >
                     <Text style={styles.secondaryButtonText}>Back to Home</Text>

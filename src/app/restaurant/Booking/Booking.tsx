@@ -128,6 +128,7 @@ const Booking = () => {
                     style={styles.payButton}
                     onPress={() =>
                         navigation.navigate('Checkout', {
+                            restaurantId,
                             bookingId: 'temp_id',
                         })
                     }
