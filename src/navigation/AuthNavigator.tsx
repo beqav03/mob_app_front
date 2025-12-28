@@ -1,29 +1,26 @@
 import React from 'react';
-import { AuthStackParamList } from './types';
 import { createStackNavigator } from '@react-navigation/stack';
+import { AuthStackParamList } from './types';
 
-// Screen Imports
-import { Welcome } from '../app/auth/Welcome/Welcome';
+// Screens
+import Welcome from '../app/auth/Welcome/Welcome';
 import { Login } from '../app/auth/Login/Login';
-import { Register } from '../app/auth/Register/Register';
-import ForgotPassword from '../app/profile/ForgotPassword/ForgotPassword';
-import OtpVerification from '../app/profile/OtpVerification/OtpVerification';
+import {Register } from '../app/auth/Register/Register';
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
 const AuthNavigator = () => {
     return (
         <Stack.Navigator
+            initialRouteName="Welcome"
             screenOptions={{
                 headerShown: false,
-                animation: 'slide_from_right',
+                cardStyle: { backgroundColor: '#fff' }, // Ensure white background
             }}
         >
             <Stack.Screen name="Welcome" component={Welcome} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-            <Stack.Screen name="OtpVerification" component={OtpVerification} />
         </Stack.Navigator>
     );
 };
