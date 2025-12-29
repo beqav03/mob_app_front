@@ -1,63 +1,171 @@
-// beqav03/mobapp/src/app/profile/Support/Support.styles.ts
-
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        backgroundColor: COLORS.white,
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: COLORS.white,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.lightGray,
+    },
+    backButton: {
+        padding: 4,
     },
     headerTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: '700',
         color: COLORS.text,
-        marginLeft: 15,
     },
-    content: {
-        padding: 20,
+    scrollContent: {
+        paddingBottom: 40,
     },
-    title: {
+    searchSection: {
+        backgroundColor: COLORS.white,
+        padding: 24,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
+    },
+    welcomeText: {
         fontSize: 22,
         fontWeight: 'bold',
-        marginBottom: 10,
+        color: COLORS.text,
+        marginBottom: 16,
+        textAlign: 'center',
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F1F5F9',
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        height: 50,
+    },
+    searchInput: {
+        flex: 1,
+        marginLeft: 10,
+        fontSize: 15,
         color: COLORS.text,
     },
-    description: {
-        fontSize: 16,
-        color: COLORS.textLight,
-        marginBottom: 30,
-        lineHeight: 24,
+    section: {
+        marginTop: 32,
+        paddingHorizontal: 20,
     },
-    card: {
+    sectionHeaderRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    sectionTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: COLORS.text,
+        marginBottom: 16,
+    },
+    seeAllText: {
+        fontSize: 14,
+        color: COLORS.primary,
+        fontWeight: '600',
+    },
+    contactCard: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: COLORS.white,
-        padding: 20,
-        borderRadius: 15,
-        marginBottom: 20,
+        padding: 16,
+        borderRadius: 20,
+        marginBottom: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
         elevation: 2,
     },
-    icon: {
-        fontSize: 30,
-        marginRight: 20,
+    contactIconWrapper: {
+        width: 48,
+        height: 48,
+        borderRadius: 14,
+        backgroundColor: '#F0F7FF',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    cardTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
+    contactTextContent: {
+        flex: 1,
+        marginLeft: 16,
+    },
+    contactTitle: {
+        fontSize: 15,
+        fontWeight: '600',
         color: COLORS.text,
     },
-    cardSubtitle: {
+    contactSubtitle: {
+        fontSize: 13,
+        color: COLORS.gray,
+        marginTop: 2,
+    },
+    faqContainer: {
+        backgroundColor: COLORS.white,
+        borderRadius: 20,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        elevation: 2,
+    },
+    faqItem: {
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.lightGray,
+    },
+    faqHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 18,
+    },
+    faqQuestion: {
+        flex: 1,
         fontSize: 14,
-        color: COLORS.textLight,
-        marginTop: 4,
+        fontWeight: '600',
+        color: COLORS.text,
+        paddingRight: 10,
+    },
+    faqAnswerContainer: {
+        paddingHorizontal: 18,
+        paddingBottom: 18,
+    },
+    faqAnswer: {
+        fontSize: 14,
+        color: COLORS.gray,
+        lineHeight: 20,
+    },
+    footerSection: {
+        marginTop: 40,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    legalLink: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    legalText: {
+        fontSize: 13,
+        color: COLORS.gray,
+        fontWeight: '500',
     },
 });

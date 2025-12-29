@@ -1,108 +1,153 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        backgroundColor: COLORS.white,
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: COLORS.white,
+    },
+    backButton: {
+        padding: 4,
     },
     headerTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         color: COLORS.text,
-        marginLeft: 15,
     },
-    content: {
+    scrollContent: {
         padding: 20,
     },
-    sectionTitle: {
-        fontSize: 18,
+    priceSummary: {
+        backgroundColor: COLORS.white,
+        borderRadius: 24,
+        padding: 20,
+        marginBottom: 30,
+    },
+    priceRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 12,
+    },
+    priceLabel: {
+        fontSize: 14,
+        color: COLORS.gray,
+    },
+    priceValue: {
+        fontSize: 14,
         fontWeight: 'bold',
         color: COLORS.text,
-        marginBottom: 15,
-    },
-    card: {
-        backgroundColor: COLORS.white,
-        borderRadius: 15,
-        padding: 20,
-        marginBottom: 20,
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 2,
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-    },
-    label: {
-        color: COLORS.textLight,
-        fontSize: 14,
-    },
-    value: {
-        color: COLORS.text,
-        fontSize: 14,
-        fontWeight: '600',
-    },
-    divider: {
-        height: 1,
-        backgroundColor: COLORS.lightGray,
-        marginVertical: 10,
-    },
-    orderItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 8,
     },
     totalRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         marginTop: 10,
-    },
-    totalText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: COLORS.text,
-    },
-    totalPrice: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: COLORS.primary,
-    },
-    paymentMethod: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-    },
-    paymentIcon: {
-        fontSize: 24,
-        marginRight: 10,
-    },
-    footer: {
-        padding: 20,
-        backgroundColor: COLORS.white,
+        paddingTop: 15,
         borderTopWidth: 1,
         borderTopColor: COLORS.lightGray,
     },
-    button: {
+    totalLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: COLORS.text,
+    },
+    totalValue: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: COLORS.primary,
+    },
+    sectionTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        marginBottom: 16,
+    },
+    methodCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: COLORS.white,
+        padding: 16,
+        borderRadius: 16,
+        marginBottom: 12,
+        borderWidth: 2,
+        borderColor: 'transparent',
+    },
+    selectedMethod: {
+        borderColor: COLORS.primary,
+        backgroundColor: '#F0F7FF',
+    },
+    methodLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+    },
+    methodText: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: COLORS.text,
+    },
+    radio: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: COLORS.lightGray,
+    },
+    radioActive: {
+        borderColor: COLORS.primary,
         backgroundColor: COLORS.primary,
-        paddingVertical: 18,
-        borderRadius: 30,
+        borderWidth: 5,
+    },
+    appleIcon: {
+        backgroundColor: '#000',
+        paddingHorizontal: 8,
+        paddingVertical: 2,
+        borderRadius: 4,
+    },
+    appleText: {
+        color: COLORS.white,
+        fontSize: 10,
+        fontWeight: 'bold',
+    },
+    secureNote: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        marginTop: 20,
+    },
+    secureText: {
+        fontSize: 12,
+        color: COLORS.gray,
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: COLORS.white,
+        paddingHorizontal: 20,
+        paddingTop: 15,
+        paddingBottom: 35,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.lightGray,
+    },
+    payButton: {
+        backgroundColor: COLORS.primary,
+        height: 56,
+        borderRadius: 16,
+        justifyContent: 'center',
         alignItems: 'center',
     },
-    buttonText: {
+    payButtonText: {
         color: COLORS.white,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
     },
 });

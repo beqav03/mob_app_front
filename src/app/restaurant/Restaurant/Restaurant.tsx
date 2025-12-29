@@ -1,169 +1,309 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     View,
     Text,
+    ScrollView,
     Image,
     TouchableOpacity,
-    ScrollView,
     StatusBar,
+    Dimensions,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { styles } from './Restaurant.styles';
-import { MenuItem } from '@/src/types';
-import { COLORS } from '@/src/constants/colors';
-import { formatPrice } from '@/src/utils/helpers';
-// Mock Data
-const MENU_ITEMS: MenuItem[] = [
-    {
-        id: '1',
-        restaurantId: '1',
-        name: 'Double Cheeseburger',
-        description:
-            'Two beef patties, cheddar cheese, pickles, onions, ketchup, and mustard.',
-        price: 8.5,
-        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        category: 'Burgers',
-    },
-    {
-        id: '2',
-        restaurantId: '1',
-        name: 'Chicken Nuggets (10pc)',
-        description:
-            'Crispy breaded chicken breast nuggets served with your choice of dip.',
-        price: 6.99,
-        image: 'https://images.unsplash.com/photo-1562967963-ed7b699c3c83?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80',
-        category: 'Sides',
-    },
-    {
-        id: '3',
-        restaurantId: '1',
-        name: 'French Fries',
-        description: 'Classic salted french fries, golden and crispy.',
-        price: 3.5,
-        image: 'https://images.unsplash.com/photo-1573080496987-a199f8cd4054?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        category: 'Sides',
-    },
-];
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+    ChevronLeft,
+    Star,
+    MapPin,
+    Clock,
+    Users,
+    Calendar,
+    Info,
+    ChevronRight,
+    Heart,
+} from 'lucide-react-native';
+import { RootStackParamList } from '../../../navigation/types';
+import { mockRestaurants } from '../../../services/dataService';
+import { COLORS } from '../../../constants/colors';
+import styles from './Restaurant.styles';
 
-export const RestaurantScreen = () => {
-    const navigation = useNavigation<any>();
-    const route = useRoute<any>();
-    const { restaurantId } = route.params || {};
+type RestaurantRouteProp = RouteProp<RootStackParamList, 'Restaurant'>;
 
-    // Ideally fetch restaurant details using ID
-    const restaurant = {
-        name: 'Burger King',
-        rating: 4.5,
-        reviews: 120,
-        image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80',
-        distance: '1.2 km',
-        deliveryTime: '20-30 min',
-        address: '123 Main St',
-        description:
-            'Home of the Whopper! We serve flame-grilled burgers, crispy fries, and delicious shakes. Come visit us for a quick and tasty meal.',
-    };
+const Restaurant = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const route = useRoute<RestaurantRouteProp>();
+    const { restaurantId } = route.params;
 
-    const handleBookTable = () => {
-        navigation.navigate('TableSelection', { restaurantId });
-    };
+    const restaurant = useMemo(
+        () =>
+            mockRestaurants.find((r) => r.id === restaurantId) ||
+            mockRestaurants[0],
+        [restaurantId],
+    );
+
+    const [selectedDate, setSelectedDate] = useState(
+        new Date().toISOString().split('T')[0],
+    );
+    const [selectedTime, setSelectedTime] = useState('19:30');
+    const [guests, setGuests] = useState(2);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    // Generate next 7 days
+    const dates = useMemo(() => {
+        return Array.from({ length: 7 }).map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() + i);
+            return {
+                full: d.toISOString().split('T')[0],
+                day: d.toLocaleDateString('en-US', { weekday: 'short' }),
+                date: d.getDate(),
+            };
+        });
+    }, []);
+
+    const timeSlots = [
+        '18:00',
+        '18:30',
+        '19:00',
+        '19:30',
+        '20:00',
+        '20:30',
+        '21:00',
+        '21:30',
+    ];
 
     return (
         <View style={styles.container}>
             <StatusBar
                 barStyle="light-content"
-                backgroundColor="transparent"
                 translucent
+                backgroundColor="transparent"
             />
-
-            <Image
-                source={{ uri: restaurant.image }}
-                style={styles.headerImage}
-            />
-
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}
-            >
-                <Text style={{ fontSize: 24, fontWeight: 'bold' }}>←</Text>
-            </TouchableOpacity>
 
             <ScrollView
-                style={styles.contentContainer}
                 showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContent}
             >
-                <View style={styles.titleRow}>
-                    <Text style={styles.title}>{restaurant.name}</Text>
-                    <View style={styles.ratingBadge}>
-                        <Text style={{ color: COLORS.white }}>★</Text>
-                        <Text style={styles.ratingText}>
-                            {restaurant.rating}
-                        </Text>
-                    </View>
-                </View>
+                {/* Hero Header */}
+                <View style={styles.heroContainer}>
+                    <Image source={restaurant.image} style={styles.heroImage} />
+                    <View style={styles.heroOverlay} />
 
-                <View style={styles.metaRow}>
-                    <View style={styles.metaItem}>
-                        <Text>🕒</Text>
-                        <Text style={styles.metaText}>
-                            {restaurant.deliveryTime}
-                        </Text>
-                    </View>
-                    <View style={styles.metaItem}>
-                        <Text>📍</Text>
-                        <Text style={styles.metaText}>
-                            {restaurant.distance}
-                        </Text>
-                    </View>
-                </View>
+                    <SafeAreaView style={styles.headerNav}>
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                            style={styles.navButton}
+                        >
+                            <ChevronLeft size={24} color={COLORS.white} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => setIsFavorite(!isFavorite)}
+                            style={styles.navButton}
+                        >
+                            <Heart
+                                size={24}
+                                color={isFavorite ? '#FF3B30' : COLORS.white}
+                                fill={isFavorite ? '#FF3B30' : 'transparent'}
+                            />
+                        </TouchableOpacity>
+                    </SafeAreaView>
 
-                <Text style={styles.sectionTitle}>About</Text>
-                <Text style={styles.description}>{restaurant.description}</Text>
-
-                <Text style={styles.sectionTitle}>Menu</Text>
-                {MENU_ITEMS.map((item) => (
-                    <View key={item.id} style={styles.menuItem}>
-                        <Image
-                            source={{ uri: item.image }}
-                            style={styles.menuImage}
-                        />
-                        <View style={styles.menuInfo}>
-                            <Text style={styles.menuName}>{item.name}</Text>
-                            <Text
-                                style={styles.menuDescription}
-                                numberOfLines={2}
-                            >
-                                {item.description}
+                    <View style={styles.restaurantBasicInfo}>
+                        <View style={styles.cuisineBadge}>
+                            <Text style={styles.cuisineText}>
+                                {restaurant.cuisine}
                             </Text>
-                            <View style={styles.menuFooter}>
-                                <Text style={styles.price}>
-                                    {formatPrice(item.price)}
+                        </View>
+                        <Text style={styles.restaurantName}>
+                            {restaurant.name}
+                        </Text>
+                        <View style={styles.ratingLocationRow}>
+                            <View style={styles.ratingBox}>
+                                <Star
+                                    size={14}
+                                    color="#FFCC00"
+                                    fill="#FFCC00"
+                                />
+                                <Text style={styles.ratingText}>
+                                    {restaurant.rating}
                                 </Text>
-                                <TouchableOpacity style={styles.addButton}>
-                                    <Text
-                                        style={{
-                                            color: COLORS.primary,
-                                            fontWeight: 'bold',
-                                        }}
-                                    >
-                                        +
-                                    </Text>
-                                </TouchableOpacity>
+                                <Text style={styles.reviewsText}>
+                                    ({restaurant.reviewsCount} reviews)
+                                </Text>
+                            </View>
+                            <View style={styles.locationBox}>
+                                <MapPin size={14} color={COLORS.white} />
+                                <Text
+                                    style={styles.locationText}
+                                    numberOfLines={1}
+                                >
+                                    {restaurant.address}
+                                </Text>
                             </View>
                         </View>
                     </View>
-                ))}
+                </View>
 
-                <TouchableOpacity
-                    style={styles.bookButton}
-                    onPress={handleBookTable}
-                    activeOpacity={0.8}
-                >
-                    <Text style={styles.bookButtonText}>Book a Table</Text>
-                </TouchableOpacity>
+                {/* Reservation Logic: The "First Logic" of the page */}
+                <View style={styles.reservationSection}>
+                    <View style={styles.sectionHeader}>
+                        <Calendar size={20} color={COLORS.primary} />
+                        <Text style={styles.sectionTitle}>Select Date</Text>
+                    </View>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.dateList}
+                    >
+                        {dates.map((d) => (
+                            <TouchableOpacity
+                                key={d.full}
+                                style={[
+                                    styles.dateCard,
+                                    selectedDate === d.full &&
+                                        styles.activeDateCard,
+                                ]}
+                                onPress={() => setSelectedDate(d.full)}
+                            >
+                                <Text
+                                    style={[
+                                        styles.dateDay,
+                                        selectedDate === d.full &&
+                                            styles.activeDateText,
+                                    ]}
+                                >
+                                    {d.day}
+                                </Text>
+                                <Text
+                                    style={[
+                                        styles.dateNum,
+                                        selectedDate === d.full &&
+                                            styles.activeDateText,
+                                    ]}
+                                >
+                                    {d.date}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
 
-                {/* Padding for scroll */}
-                <View style={{ height: 40 }} />
+                    <View style={styles.sectionHeader}>
+                        <Clock size={20} color={COLORS.primary} />
+                        <Text style={styles.sectionTitle}>Select Time</Text>
+                    </View>
+                    <View style={styles.timeGrid}>
+                        {timeSlots.map((time) => (
+                            <TouchableOpacity
+                                key={time}
+                                style={[
+                                    styles.timeSlot,
+                                    selectedTime === time &&
+                                        styles.activeTimeSlot,
+                                ]}
+                                onPress={() => setSelectedTime(time)}
+                            >
+                                <Text
+                                    style={[
+                                        styles.timeText,
+                                        selectedTime === time &&
+                                            styles.activeTimeText,
+                                    ]}
+                                >
+                                    {time}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+
+                    <View style={styles.sectionHeader}>
+                        <Users size={20} color={COLORS.primary} />
+                        <Text style={styles.sectionTitle}>
+                            Number of Guests
+                        </Text>
+                    </View>
+                    <View style={styles.guestSelector}>
+                        <TouchableOpacity
+                            style={styles.guestBtn}
+                            onPress={() => setGuests(Math.max(1, guests - 1))}
+                        >
+                            <Text style={styles.guestBtnText}>-</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.guestCount}>{guests}</Text>
+                        <TouchableOpacity
+                            style={styles.guestBtn}
+                            onPress={() => setGuests(Math.min(12, guests + 1))}
+                        >
+                            <Text style={styles.guestBtnText}>+</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.guestLabel}>
+                            {guests === 1 ? 'Person' : 'People'}
+                        </Text>
+                    </View>
+                </View>
+
+                {/* Info Section */}
+                <View style={styles.infoSection}>
+                    <Text style={styles.aboutTitle}>About</Text>
+                    <Text style={styles.aboutText}>
+                        {restaurant.description}
+                    </Text>
+
+                    <TouchableOpacity style={styles.infoRow}>
+                        <View style={styles.infoLeft}>
+                            <Info size={20} color={COLORS.gray} />
+                            <Text style={styles.infoLabel}>
+                                Restaurant Policy & Info
+                            </Text>
+                        </View>
+                        <ChevronRight size={20} color={COLORS.gray} />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Pre-order Preview (Secondary Logic) */}
+                <View style={styles.preOrderSection}>
+                    <View style={styles.sectionHeaderRow}>
+                        <Text style={styles.preOrderTitle}>
+                            Want to pre-order?
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate('MenuSelection', {
+                                    restaurantId,
+                                    tableId: 'any',
+                                })
+                            }
+                        >
+                            <Text style={styles.seeMenuText}>See Menu</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.preOrderSubtitle}>
+                        Save time by choosing your meals in advance.
+                    </Text>
+                </View>
             </ScrollView>
+
+            {/* Floating Action Button */}
+            <View style={styles.footer}>
+                <TouchableOpacity
+                    style={styles.mainActionButton}
+                    onPress={() =>
+                        navigation.navigate('TableSelection', { restaurantId })
+                    }
+                >
+                    <View style={styles.btnContent}>
+                        <Text style={styles.btnMainText}>
+                            Select Your Table
+                        </Text>
+                        <Text style={styles.btnSubText}>
+                            {selectedDate} at {selectedTime}
+                        </Text>
+                    </View>
+                    <ChevronRight size={24} color={COLORS.white} />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
+
+export default Restaurant;

@@ -3,75 +3,58 @@ export interface User {
     name: string;
     email: string;
     phone?: string;
-    avatar?: string;
-    password?: string; // In a real app, never store plain text passwords
+    avatar?: any;
+}
+
+export interface Table {
+    id: string;
+    number: string;
+    capacity: number;
+    isAvailable: boolean;
+    position: { x: number; y: number };
+}
+
+export interface MenuItem {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    image: any;
 }
 
 export interface Restaurant {
     id: string;
     name: string;
-    rating: number;
-    reviews: number;
-    image: string;
-    distance: string; // e.g., "1.2 km"
-    deliveryTime: string; // e.g., "20-30 min"
-    minOrder: number;
-    deliveryFee: number;
-    tags: string[];
-    latitude: number;
-    longitude: number;
-    description?: string;
-    address?: string;
-}
-
-export interface Category {
-    id: string;
-    name: string;
-    image: string;
-}
-
-export interface MenuItem {
-    id: string;
-    restaurantId: string;
-    name: string;
     description: string;
-    price: number;
-    image: string;
-    category: string;
-    popular?: boolean;
-}
-
-export interface CartItem extends MenuItem {
-    quantity: number;
-    options?: string[];
+    address: string;
+    rating: number;
+    reviewsCount: number;
+    image: any;
+    cuisine: string;
+    tables: Table[];
+    menu: MenuItem[];
 }
 
 export interface Booking {
     id: string;
+    restaurantId: string;
     userId: string;
-    restaurantId: string;
-    date: string; // ISO date string
+    tableId: string;
+    date: string;
     time: string;
-    guests: number;
-    status: 'confirmed' | 'pending' | 'cancelled' | 'completed';
-    tableId?: string;
-    specialRequests?: string;
+    guestsCount: number;
+    status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+    preOrderItems?: { itemId: string; quantity: number }[];
+    totalPrice?: number;
 }
 
-export interface Table {
+export interface Notification {
     id: string;
-    restaurantId: string;
-    number: number;
-    capacity: number;
-    isOccupied: boolean;
-    position: { x: number; y: number }; // For visual layout
-    shape: 'round' | 'rect';
+    userId: string;
+    title: string;
+    message: string;
+    type: 'booking' | 'system' | 'promotion';
+    createdAt: string;
+    isRead: boolean;
 }
-
-export interface ChatMessage {
-    id: string;
-    text: string;
-    sender: 'user' | 'bot';
-    timestamp: Date;
-    isTyping?: boolean;
-    isError?: boolean;}

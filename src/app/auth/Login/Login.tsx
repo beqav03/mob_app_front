@@ -4,16 +4,17 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
     ScrollView,
     Alert,
     ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './Login.styles';
-import { isValidEmail } from '@/src/utils/helpers';
-import { COLORS } from '@/src/constants/colors';
+import { isValidEmail } from '../../../utils/helpers';
+import { COLORS } from '../../../constants/colors';
+import { BASE_URL } from '../../../constants/config';
 
 export const Login = () => {
     const navigation = useNavigation<any>();
@@ -38,20 +39,39 @@ export const Login = () => {
         setIsLoading(true);
 
         // Simulate API Call
-        setTimeout(() => {
-            setIsLoading(false);
-            // For now, hardcoded success
-            if (email && password) {
-                // Navigate to the Main App Stack
-                // In your navigation structure, this likely maps to 'Main' or 'Home'
+        try {
+            // Real API Call
+            /*
+            const response = await fetch(`${BASE_URL}/api/login/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: email,
+                    password: password,
+                }),
+            });
+            
+
+            const data = await response.json();
+            */
+           const data = { response: { ok: true } }; // Mock response
+            if (data.response.ok) {
+                setIsLoading(false);
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'Main' }],
                 });
             } else {
+                setIsLoading(false);
                 Alert.alert('Error', 'Invalid credentials');
             }
-        }, 1500);
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Login Error:', error);
+            Alert.alert('Connection Error', 'Could not connect to the server.');
+        }
     };
 
     const navigateToRegister = () => {

@@ -2,92 +2,163 @@ import React from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
     Image,
-    SafeAreaView,
+    TouchableOpacity,
     ScrollView,
-    Alert,
+    StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from './Profile.styles';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+    User,
+    ChevronRight,
+    Settings,
+    ShieldCheck,
+    CreditCard,
+    Headset,
+    LogOut,
+    Calendar,
+    Bell,
+} from 'lucide-react-native';
+import { RootStackParamList } from '../../../navigation/types';
+import { mockUser } from '../../../services/dataService';
+import { COLORS } from '../../../constants/colors';
+import styles from './Profile.styles';
 
-// Mock User Data
-const USER = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-};
+const Profile = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-const MENU_ITEMS = [
-    { id: '1', title: 'Edit Profile', icon: '👤', route: 'EditProfile' },
-    { id: '2', title: 'Payment Methods', icon: '💳', route: 'PaymentMethods' },
-    { id: '3', title: 'My Bookings', icon: '📅', route: 'MyBookings' },
-    { id: '4', title: 'Settings', icon: '⚙️', route: 'Settings' },
-    { id: '5', title: 'Support', icon: '🎧', route: 'Support' },
-    { id: '6', title: 'Security', icon: '🔒', route: 'Security' },
-];
-
-export const Profile = () => {
-    const navigation = useNavigation<any>();
-
-    const handleLogout = () => {
-        Alert.alert('Logout', 'Are you sure you want to logout?', [
-            { text: 'Cancel', style: 'cancel' },
-            {
-                text: 'Logout',
-                style: 'destructive',
-                onPress: () => {
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Auth' }],
-                    });
+    const menuItems = [
+        {
+            title: 'Account Settings',
+            items: [
+                {
+                    id: 'edit',
+                    label: 'Edit Profile',
+                    icon: User,
+                    action: () => navigation.navigate('EditProfile'),
                 },
-            },
-        ]);
-    };
+                {
+                    id: 'bookings',
+                    label: 'My Bookings',
+                    icon: Calendar,
+                    action: () => navigation.navigate('MyBookings'),
+                },
+                {
+                    id: 'payments',
+                    label: 'Payment Methods',
+                    icon: CreditCard,
+                    action: () => navigation.navigate('PaymentMethods' as any),
+                },
+            ],
+        },
+        {
+            title: 'General',
+            items: [
+                {
+                    id: 'notifications',
+                    label: 'Notifications',
+                    icon: Bell,
+                    action: () => navigation.navigate('Notifications' as any),
+                },
+                {
+                    id: 'security',
+                    label: 'Security',
+                    icon: ShieldCheck,
+                    action: () => navigation.navigate('Security'),
+                },
+                {
+                    id: 'settings',
+                    label: 'Settings',
+                    icon: Settings,
+                    action: () => navigation.navigate('Settings'),
+                },
+            ],
+        },
+        {
+            title: 'Support',
+            items: [
+                {
+                    id: 'help',
+                    label: 'Help & Support',
+                    icon: Headset,
+                    action: () => navigation.navigate('Support'),
+                },
+            ],
+        },
+    ];
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <StatusBar barStyle="dark-content" />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContent}
+            >
+                {/* Profile Header */}
                 <View style={styles.header}>
                     <View style={styles.avatarContainer}>
                         <Image
-                            source={{ uri: USER.avatar }}
+                            source={mockUser.avatar}
                             style={styles.avatar}
                         />
+                        <TouchableOpacity style={styles.editBadge}>
+                            <Text style={styles.editBadgeText}>Edit</Text>
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.name}>{USER.name}</Text>
-                    <Text style={styles.email}>{USER.email}</Text>
+                    <Text style={styles.userName}>{mockUser.name}</Text>
+                    <Text style={styles.userEmail}>{mockUser.email}</Text>
                 </View>
 
-                <View style={styles.menuContainer}>
-                    {MENU_ITEMS.map((item) => (
-                        <TouchableOpacity
-                            key={item.id}
-                            style={styles.menuItem}
-                            onPress={() => {
-                                if (item.route) {
-                                    navigation.navigate(item.route);
-                                }
-                            }}
-                        >
-                            <View style={styles.menuIcon}>
-                                <Text style={{ fontSize: 20 }}>
-                                    {item.icon}
-                                </Text>
-                            </View>
-                            <Text style={styles.menuText}>{item.title}</Text>
-                            <Text style={styles.arrow}>›</Text>
-                        </TouchableOpacity>
-                    ))}
-
-                    <TouchableOpacity
-                        style={styles.logoutButton}
-                        onPress={handleLogout}
+                {/* Menu Sections */}
+                {menuItems.map((section, sectionIdx) => (
+                    <View
+                        key={section.title || sectionIdx}
+                        style={styles.section}
                     >
-                        <Text>🚪</Text>
-                        <Text style={styles.logoutText}>Logout</Text>
-                    </TouchableOpacity>
+                        <Text style={styles.sectionTitle}>{section.title}</Text>
+                        <View style={styles.menuContainer}>
+                            {section.items.map((item, idx) => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    style={[
+                                        styles.menuItem,
+                                        idx === section.items.length - 1 &&
+                                            styles.noBorder,
+                                    ]}
+                                    onPress={item.action}
+                                >
+                                    <View style={styles.menuLeft}>
+                                        <View style={styles.iconContainer}>
+                                            <item.icon
+                                                size={20}
+                                                color={COLORS.primary}
+                                            />
+                                        </View>
+                                        <Text style={styles.menuLabel}>
+                                            {item.label}
+                                        </Text>
+                                    </View>
+                                    <ChevronRight
+                                        size={20}
+                                        color={COLORS.gray}
+                                    />
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+                ))}
+
+                {/* Logout Button */}
+                <TouchableOpacity style={styles.logoutButton}>
+                    <LogOut size={20} color="#FF3B30" />
+                    <Text style={styles.logoutText}>Log Out</Text>
+                </TouchableOpacity>
+
+                <View style={styles.versionContainer}>
+                    <Text style={styles.versionText}>Version 1.0.0</Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

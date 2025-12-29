@@ -1,14 +1,16 @@
-import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AppNavigator } from './src/navigation/AppNavigator';
-import { ChatOverlay } from './src/components/chat/ChatOverlay/ChatOverlay';
+import AuthNavigator from './src/navigation/AuthNavigator';
 
 export default function App() {
     return (
         <SafeAreaProvider>
-            <StatusBar style="auto" />
-            <AppNavigator />
+            <NavigationContainer>
+                <StatusBar style="dark" />
+                <AuthNavigator />
+            </NavigationContainer>
         </SafeAreaProvider>
     );
 }

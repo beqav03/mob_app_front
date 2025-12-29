@@ -4,16 +4,16 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar,
     ScrollView,
     Alert,
     ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './Register.styles';
-import { isValidEmail } from '@/src/utils/helpers';
-import { COLORS } from '@/src/constants/colors';
+import { isValidEmail } from '../../../utils/helpers';
+import { COLORS } from '../../../constants/colors';
 
 export const Register = () => {
     const navigation = useNavigation<any>();

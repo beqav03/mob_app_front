@@ -1,63 +1,160 @@
-import { COLORS } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.background,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingTop: 20,
+        backgroundColor: COLORS.white,
         paddingBottom: 15,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 3,
     },
-    title: {
-        fontSize: 28,
+    headerTop: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    backButton: {
+        padding: 4,
+    },
+    headerTitle: {
+        fontSize: 20,
         fontWeight: 'bold',
         color: COLORS.text,
+    },
+    menuButton: {
+        padding: 4,
+    },
+    headerActions: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginTop: 5,
+    },
+    notifCount: {
+        fontSize: 14,
+        color: COLORS.gray,
+        fontWeight: '600',
+    },
+    markReadButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    markReadText: {
+        fontSize: 13,
+        color: COLORS.primary,
+        fontWeight: '700',
     },
     listContent: {
         padding: 20,
+        paddingBottom: 40,
     },
-    itemContainer: {
+    notificationCard: {
         flexDirection: 'row',
         backgroundColor: COLORS.white,
-        borderRadius: 15,
-        padding: 15,
-        marginBottom: 15,
-        shadowColor: COLORS.black,
+        padding: 16,
+        borderRadius: 20,
+        marginBottom: 12,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
+        shadowOpacity: 0.04,
+        shadowRadius: 8,
         elevation: 2,
+        borderWidth: 1,
+        borderColor: 'transparent',
+    },
+    unreadCard: {
+        borderColor: 'rgba(0, 122, 255, 0.1)',
+        backgroundColor: '#FAFDFF',
     },
     iconContainer: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        backgroundColor: COLORS.inputBackground,
+        width: 48,
+        height: 48,
+        borderRadius: 14,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 15,
+        marginRight: 16,
     },
-    contentContainer: {
+    textContent: {
         flex: 1,
     },
-    itemTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: COLORS.text,
+    cardHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
         marginBottom: 4,
     },
-    itemMessage: {
-        fontSize: 14,
-        color: COLORS.textLight,
-        lineHeight: 20,
+    notifTitle: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: COLORS.text,
+        flex: 1,
     },
-    time: {
-        fontSize: 12,
+    unreadText: {
+        fontWeight: '800',
+        color: COLORS.primary,
+    },
+    unreadDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: COLORS.primary,
+        marginLeft: 10,
+        marginTop: 6,
+    },
+    notifMessage: {
+        fontSize: 13,
         color: COLORS.gray,
-        marginTop: 5,
-        textAlign: 'right',
+        lineHeight: 18,
+        marginBottom: 8,
+    },
+    timeText: {
+        fontSize: 11,
+        color: COLORS.gray,
+        fontWeight: '500',
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 40,
+    },
+    emptyIconWrapper: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: COLORS.white,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
+    },
+    emptyTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.text,
+        marginBottom: 8,
+    },
+    emptySubtitle: {
+        fontSize: 14,
+        color: COLORS.gray,
+        textAlign: 'center',
+        lineHeight: 20,
     },
 });

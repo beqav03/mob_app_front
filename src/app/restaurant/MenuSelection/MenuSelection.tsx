@@ -1,180 +1,184 @@
-// beqav03/mobapp/src/app/restaurant/MenuSelection/MenuSelection.tsx
-
-import { COLORS } from '@/src/constants/colors';
-import { MenuItem } from '@/src/types';
-import { formatPrice } from '@/src/utils/helpers';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-    FlatList,
-    Image,
-    SafeAreaView,
+    View,
     Text,
     TouchableOpacity,
-    View,
+    StatusBar,
+    FlatList,
+    Image,
 } from 'react-native';
-import { styles } from './MenuSelection.styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ChevronLeft, Plus, Minus, ShoppingBag } from 'lucide-react-native';
+import { RootStackParamList } from '../../../navigation/types';
+import { mockRestaurants } from '../../../services/dataService';
+import { MenuItem } from '../../../types';
+import { COLORS } from '../../../constants/colors';
+import styles from './MenuSelection.styles';
 
-const MENU_ITEMS: MenuItem[] = [
-    {
-        id: '1',
-        restaurantId: '1',
-        name: 'Double Cheeseburger',
-        description: '',
-        price: 8.5,
-        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        category: 'Burgers',
-    },
-    {
-        id: '2',
-        restaurantId: '1',
-        name: 'Chicken Nuggets',
-        description: '',
-        price: 6.99,
-        image: 'https://images.unsplash.com/photo-1562967963-ed7b699c3c83?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80',
-        category: 'Sides',
-    },
-    {
-        id: '3',
-        restaurantId: '1',
-        name: 'French Fries',
-        description: '',
-        price: 3.5,
-        image: 'https://images.unsplash.com/photo-1573080496987-a199f8cd4054?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        category: 'Sides',
-    },
-];
+type MenuSelectionRouteProp = RouteProp<RootStackParamList, 'MenuSelection'>;
 
-export const MenuSelection = () => {
-    const navigation = useNavigation<any>();
-    const route = useRoute<any>();
-    const params = route.params || {};
+const MenuSelection = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const route = useRoute<MenuSelectionRouteProp>();
+    const { restaurantId, tableId} = route.params;
 
-    const [cart, setCart] = useState<Record<string, number>>({});
+    const restaurant = useMemo(
+        () =>
+            mockRestaurants.find((r) => r.id === restaurantId) ||
+            mockRestaurants[0],
+        [restaurantId],
+    );
+
+    const [cart, setCart] = useState<{ itemId: string; quantity: number }[]>(
+        [],
+    );
 
     const updateQuantity = (itemId: string, delta: number) => {
         setCart((prev) => {
-            const current = prev[itemId] || 0;
-            const next = Math.max(0, current + delta);
-            if (next === 0) {
-                const { [itemId]: _, ...rest } = prev;
-                return rest;
+            const existing = prev.find((i) => i.itemId === itemId);
+            if (existing) {
+                const newQty = Math.max(0, existing.quantity + delta);
+                if (newQty === 0)
+                    return prev.filter((i) => i.itemId !== itemId);
+                return prev.map((i) =>
+                    i.itemId === itemId ? { ...i, quantity: newQty } : i,
+                );
             }
-            return { ...prev, [itemId]: next };
+            if (delta > 0) return [...prev, { itemId, quantity: 1 }];
+            return prev;
         });
     };
 
-    const calculateTotal = () => {
-        return Object.entries(cart).reduce((total, [itemId, qty]) => {
-            const item = MENU_ITEMS.find((i) => i.id === itemId);
-            return total + (item ? item.price * qty : 0);
+    const cartTotal = useMemo(() => {
+        return cart.reduce((acc, item) => {
+            const menu = restaurant.menu.find((m) => m.id === item.itemId);
+            return acc + (menu?.price || 0) * item.quantity;
         }, 0);
-    };
+    }, [cart, restaurant.menu]);
 
-    const handleCheckout = () => {
-        // Convert cart to array of items with quantities
-        const items = Object.entries(cart)
-            .map(([itemId, qty]) => {
-                const item = MENU_ITEMS.find((i) => i.id === itemId);
-                return item ? { ...item, quantity: qty } : null;
-            })
-            .filter(Boolean);
+    const renderMenuItem = ({ item }: { item: MenuItem }) => {
+        const quantity = cart.find((i) => i.itemId === item.id)?.quantity || 0;
 
-        navigation.navigate('Checkout', {
-            ...params,
-            items,
-            total: calculateTotal(),
-        });
-    };
-
-    const renderItem = ({ item }: { item: MenuItem }) => (
-        <View style={styles.menuItem}>
-            <Image source={{ uri: item.image }} style={styles.menuImage} />
-            <View style={styles.menuInfo}>
-                <Text style={styles.menuName}>{item.name}</Text>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Text style={styles.menuPrice}>
-                        {formatPrice(item.price)}
+        return (
+            <View style={styles.menuCard}>
+                <Image source={item.image} style={styles.menuImage} />
+                <View style={styles.menuInfo}>
+                    <Text style={styles.menuName}>{item.name}</Text>
+                    <Text style={styles.menuDesc} numberOfLines={2}>
+                        {item.description}
                     </Text>
-                    <View style={styles.qtyContainer}>
-                        <TouchableOpacity
-                            style={styles.qtyButton}
-                            onPress={() => updateQuantity(item.id, -1)}
-                        >
-                            <Text
-                                style={{
-                                    color: COLORS.text,
-                                    fontWeight: 'bold',
-                                }}
+                    <View style={styles.priceRow}>
+                        <Text style={styles.menuPrice}>
+                            ${item.price.toFixed(2)}
+                        </Text>
+                        <View style={styles.quantityContainer}>
+                            {quantity > 0 && (
+                                <>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            updateQuantity(item.id, -1)
+                                        }
+                                        style={styles.qtyBtn}
+                                    >
+                                        <Minus
+                                            size={16}
+                                            color={COLORS.primary}
+                                        />
+                                    </TouchableOpacity>
+                                    <Text style={styles.qtyText}>
+                                        {quantity}
+                                    </Text>
+                                </>
+                            )}
+                            <TouchableOpacity
+                                onPress={() => updateQuantity(item.id, 1)}
+                                style={[styles.qtyBtn, styles.primaryBtn]}
                             >
-                                -
-                            </Text>
-                        </TouchableOpacity>
-                        <Text style={styles.qtyText}>{cart[item.id] || 0}</Text>
-                        <TouchableOpacity
-                            style={[
-                                styles.qtyButton,
-                                { backgroundColor: COLORS.primary },
-                            ]}
-                            onPress={() => updateQuantity(item.id, 1)}
-                        >
-                            <Text
-                                style={{
-                                    color: COLORS.white,
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                +
-                            </Text>
-                        </TouchableOpacity>
+                                <Plus
+                                    size={16}
+                                    color={
+                                        quantity > 0
+                                            ? COLORS.white
+                                            : COLORS.primary
+                                    }
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
-    );
+        );
+    };
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
+
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={{ fontSize: 24, color: COLORS.text }}>←</Text>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.backButton}
+                >
+                    <ChevronLeft size={28} color={COLORS.text} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Select Menu</Text>
-                <TouchableOpacity onPress={handleCheckout}>
-                    <Text style={styles.skipButtonText}>Skip</Text>
+                <View style={styles.headerTitleContainer}>
+                    <Text style={styles.headerTitle}>Pre-order Menu</Text>
+                    <Text style={styles.headerSubtitle}>
+                        Optional: Choose your items
+                    </Text>
+                </View>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate('Booking', {
+                            restaurantId,
+                            tableId,
+                        })
+                    }
+                    style={styles.skipButton}
+                >
+                    <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity>
             </View>
 
             <FlatList
-                data={MENU_ITEMS}
-                renderItem={renderItem}
+                data={restaurant.menu}
                 keyExtractor={(item) => item.id}
+                renderItem={renderMenuItem}
                 contentContainerStyle={styles.listContent}
+                showsVerticalScrollIndicator={false}
             />
 
             <View style={styles.footer}>
-                <View style={styles.totalContainer}>
-                    <Text style={styles.totalLabel}>Total</Text>
-                    <Text style={styles.totalAmount}>
-                        {formatPrice(calculateTotal())}
+                <View style={styles.cartInfo}>
+                    <View style={styles.cartIconWrapper}>
+                        <ShoppingBag size={20} color={COLORS.primary} />
+                        <View style={styles.badge}>
+                            <Text style={styles.badgeText}>
+                                {cart.reduce((a, b) => a + b.quantity, 0)}
+                            </Text>
+                        </View>
+                    </View>
+                    <Text style={styles.totalText}>
+                        ${cartTotal.toFixed(2)}
                     </Text>
                 </View>
                 <TouchableOpacity
-                    style={styles.checkoutButton}
-                    onPress={handleCheckout}
+                    style={styles.confirmButton}
+                    onPress={() =>
+                        navigation.navigate('Booking', {
+                            restaurantId,
+                            tableId,
+                        })
+                    }
                 >
-                    <Text style={styles.checkoutButtonText}>
-                        Continue (
-                        {Object.values(cart).reduce((a, b) => a + b, 0)})
-                    </Text>
+                    <Text style={styles.confirmButtonText}>Review Booking</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
 };
+
+export default MenuSelection;

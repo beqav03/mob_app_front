@@ -1,202 +1,191 @@
-// beqav03/mobapp/src/app/restaurant/TableSelection/TableSelection.tsx
-
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     View,
     Text,
     TouchableOpacity,
-    SafeAreaView,
-    Alert,
+    StatusBar,
+    ScrollView,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { styles } from './TableSelection.styles';
-import { Table } from '@/src/types';
-import { COLORS } from '@/src/constants/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ChevronLeft, Info, Users, Armchair } from 'lucide-react-native';
+import { RootStackParamList } from '../../../navigation/types';
+import { mockRestaurants } from '../../../services/dataService';
+import { COLORS } from '../../../constants/colors';
+import styles from './TableSelection.styles';
 
-// Mock Tables
-const TABLES: Table[] = [
-    {
-        id: 't1',
-        restaurantId: '1',
-        number: 1,
-        capacity: 2,
-        isOccupied: false,
-        shape: 'round',
-        position: { x: 50, y: 50 },
-    },
-    {
-        id: 't2',
-        restaurantId: '1',
-        number: 2,
-        capacity: 4,
-        isOccupied: true,
-        shape: 'rect',
-        position: { x: 150, y: 50 },
-    },
-    {
-        id: 't3',
-        restaurantId: '1',
-        number: 3,
-        capacity: 4,
-        isOccupied: false,
-        shape: 'rect',
-        position: { x: 50, y: 150 },
-    },
-    {
-        id: 't4',
-        restaurantId: '1',
-        number: 4,
-        capacity: 6,
-        isOccupied: false,
-        shape: 'rect',
-        position: { x: 150, y: 150 },
-    },
-    {
-        id: 't5',
-        restaurantId: '1',
-        number: 5,
-        capacity: 2,
-        isOccupied: false,
-        shape: 'round',
-        position: { x: 250, y: 100 },
-    },
-];
+type TableSelectionRouteProp = RouteProp<RootStackParamList, 'TableSelection'>;
 
-export const TableSelection = () => {
-    const navigation = useNavigation<any>();
-    const route = useRoute<any>();
-    const { restaurantId, guests, date, time } = route.params || {};
+const TableSelection = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const route = useRoute<TableSelectionRouteProp>();
+    const { restaurantId } = route.params;
+
+    const restaurant = useMemo(
+        () =>
+            mockRestaurants.find((r) => r.id === restaurantId) ||
+            mockRestaurants[0],
+        [restaurantId],
+    );
+
     const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
 
-    const handleSelectTable = (table: Table) => {
-        if (table.isOccupied) return;
-        setSelectedTableId(table.id);
-    };
-
-    const handleNext = () => {
-        if (!selectedTableId) {
-            Alert.alert('Select Table', 'Please select a table to continue.');
-            return;
+    const handleContinue = () => {
+        if (selectedTableId) {
+            navigation.navigate('MenuSelection', {
+                restaurantId,
+                tableId: selectedTableId,
+            });
         }
-        navigation.navigate('MenuSelection', {
-            restaurantId,
-            tableId: selectedTableId,
-            guests,
-            date,
-            time,
-        });
     };
 
     return (
-        <View style={styles.container}>
-            <TouchableOpacity
-                style={styles.header}
-                onPress={() => navigation.goBack()}
-            >
-                <Text style={{ fontSize: 20 }}>←</Text>
-            </TouchableOpacity>
+        <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
 
-            <View style={styles.legendContainer}>
-                <View style={styles.legendItem}>
-                    <View
-                        style={[
-                            styles.legendColor,
-                            { backgroundColor: COLORS.white },
-                        ]}
-                    />
-                    <Text style={styles.legendText}>Available</Text>
+            {/* Header */}
+            <View style={styles.header}>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.backButton}
+                >
+                    <ChevronLeft size={28} color={COLORS.text} />
+                </TouchableOpacity>
+                <View style={styles.headerTitleContainer}>
+                    <Text style={styles.headerTitle}>Select a Table</Text>
+                    <Text style={styles.headerSubtitle}>{restaurant.name}</Text>
                 </View>
-                <View style={styles.legendItem}>
-                    <View
-                        style={[
-                            styles.legendColor,
-                            { backgroundColor: COLORS.error },
-                        ]}
-                    />
-                    <Text style={styles.legendText}>Occupied</Text>
-                </View>
-                <View style={styles.legendItem}>
-                    <View
-                        style={[
-                            styles.legendColor,
-                            { backgroundColor: COLORS.primary },
-                        ]}
-                    />
-                    <Text style={styles.legendText}>Selected</Text>
-                </View>
+                <View style={{ width: 40 }} />
             </View>
 
-            <View style={styles.floorPlan}>
-                {/* Simple absolute positioning simulation or flex wrap grid */}
-                <View
-                    style={{
-                        width: 350,
-                        height: 400,
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        justifyContent: 'center',
-                    }}
-                >
-                    {TABLES.map((table) => (
-                        <TouchableOpacity
-                            key={table.id}
-                            style={[
-                                styles.table,
-                                table.shape === 'round'
-                                    ? styles.tableRound
-                                    : styles.tableRect,
-                                {
-                                    width: table.capacity * 20,
-                                    height: table.capacity * 20,
-                                    backgroundColor: table.isOccupied
-                                        ? COLORS.error
-                                        : selectedTableId === table.id
-                                        ? COLORS.primary
-                                        : COLORS.white,
-                                },
-                            ]}
-                            disabled={table.isOccupied}
-                            onPress={() => handleSelectTable(table)}
-                        >
-                            <Text
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Floor Plan Legend */}
+                <View style={styles.legend}>
+                    <View style={styles.legendItem}>
+                        <View style={[styles.legendBox, styles.availableBox]} />
+                        <Text style={styles.legendText}>Available</Text>
+                    </View>
+                    <View style={styles.legendItem}>
+                        <View style={[styles.legendBox, styles.selectedBox]} />
+                        <Text style={styles.legendText}>Selected</Text>
+                    </View>
+                    <View style={styles.legendItem}>
+                        <View style={[styles.legendBox, styles.occupiedBox]} />
+                        <Text style={styles.legendText}>Occupied</Text>
+                    </View>
+                </View>
+
+                {/* Visual Floor Plan */}
+                <View style={styles.floorPlanContainer}>
+                    <View style={styles.entranceLabel}>
+                        <Text style={styles.entranceText}>ENTRANCE</Text>
+                    </View>
+
+                    <View style={styles.tablesGrid}>
+                        {restaurant.tables.map((table) => (
+                            <TouchableOpacity
+                                key={table.id}
+                                disabled={!table.isAvailable}
                                 style={[
-                                    styles.tableText,
-                                    {
-                                        color:
-                                            table.isOccupied ||
+                                    styles.tableCard,
+                                    !table.isAvailable && styles.occupiedTable,
+                                    selectedTableId === table.id &&
+                                        styles.selectedTable,
+                                ]}
+                                onPress={() => setSelectedTableId(table.id)}
+                            >
+                                <Armchair
+                                    size={24}
+                                    color={
+                                        !table.isAvailable
+                                            ? COLORS.gray
+                                            : selectedTableId === table.id
+                                            ? COLORS.white
+                                            : COLORS.primary
+                                    }
+                                />
+                                <Text
+                                    style={[
+                                        styles.tableNumber,
+                                        !table.isAvailable &&
+                                            styles.occupiedText,
+                                        selectedTableId === table.id &&
+                                            styles.selectedText,
+                                    ]}
+                                >
+                                    T-{table.number}
+                                </Text>
+                                <View style={styles.capacityBadge}>
+                                    <Users
+                                        size={10}
+                                        color={
                                             selectedTableId === table.id
                                                 ? COLORS.white
-                                                : COLORS.black,
-                                    },
-                                ]}
-                            >
-                                {table.number}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </View>
+                                                : COLORS.gray
+                                        }
+                                    />
+                                    <Text
+                                        style={[
+                                            styles.capacityText,
+                                            selectedTableId === table.id &&
+                                                styles.selectedText,
+                                        ]}
+                                    >
+                                        {table.capacity}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
 
+                    <View style={styles.windowLabel}>
+                        <Text style={styles.windowText}>WINDOW SEATING</Text>
+                    </View>
+                </View>
+
+                <View style={styles.tipContainer}>
+                    <Info size={16} color={COLORS.gray} />
+                    <Text style={styles.tipText}>
+                        Tables are subject to availability. High-demand spots
+                        may have a minimum spending limit.
+                    </Text>
+                </View>
+            </ScrollView>
+
+            {/* Footer */}
             <View style={styles.footer}>
-                <Text style={styles.selectedInfo}>
-                    {selectedTableId
-                        ? `Table #${
-                              TABLES.find((t) => t.id === selectedTableId)
-                                  ?.number
-                          } selected`
-                        : 'Please select a table'}
-                </Text>
+                <View style={styles.selectionInfo}>
+                    <Text style={styles.selectionLabel}>Table Selected</Text>
+                    <Text style={styles.selectionValue}>
+                        {selectedTableId
+                            ? `Table ${
+                                  restaurant.tables.find(
+                                      (t) => t.id === selectedTableId,
+                                  )?.number
+                              }`
+                            : 'None'}
+                    </Text>
+                </View>
                 <TouchableOpacity
                     style={[
-                        styles.button,
-                        !selectedTableId && styles.buttonDisabled,
+                        styles.continueButton,
+                        !selectedTableId && styles.disabledButton,
                     ]}
-                    onPress={handleNext}
                     disabled={!selectedTableId}
+                    onPress={handleContinue}
                 >
-                    <Text style={styles.buttonText}>Confirm Table</Text>
+                    <Text style={styles.continueButtonText}>
+                        Next: Pre-order
+                    </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
+
+export default TableSelection;

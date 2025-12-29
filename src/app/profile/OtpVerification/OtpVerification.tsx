@@ -1,125 +1,190 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
     Text,
-    TextInput,
     TouchableOpacity,
-    SafeAreaView,
-    Alert,
-    Keyboard,
+    StatusBar,
+    TextInput,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { styles } from './OtpVerification.styles';
-import { COLORS } from '@/src/constants/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+    ChevronLeft,
+    ShieldCheck,
+    Timer,
+    RefreshCcw,
+} from 'lucide-react-native';
+import { AuthStackParamList } from '../../../navigation/types';
+import { COLORS } from '../../../constants/colors';
+import styles from './OtpVerification.styles';
 
-export const OtpVerification = () => {
-    const navigation = useNavigation<any>();
-    const [otp, setOtp] = useState(['', '', '', '']);
+type OtpRouteProp = RouteProp<AuthStackParamList, 'OtpVerification'>;
+
+const OtpVerification = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+    const route = useRoute<OtpRouteProp>();
+    const { email, flow } = route.params;
+    const [otp, setOtp] = useState(['', '', '', '', '', '']);
+    const [timer, setTimer] = useState(30);
     const inputs = useRef<Array<TextInput | null>>([]);
-    const [timer, setTimer] = useState(60);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setTimer((prev) => (prev > 0 ? prev - 1 : 0));
-        }, 1000);
+        let interval: ReturnType<typeof setInterval>;
+        if (timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        }
         return () => clearInterval(interval);
-    }, []);
+    }, [timer]);
 
     const handleChange = (text: string, index: number) => {
         const newOtp = [...otp];
         newOtp[index] = text;
         setOtp(newOtp);
 
-        if (text && index < 3) {
+        // Move to next input if text is entered
+        if (text && index < 5) {
             inputs.current[index + 1]?.focus();
-        }
-
-        if (newOtp.every((digit) => digit !== '')) {
-            Keyboard.dismiss();
         }
     };
 
-    const handleBackspace = (text: string, index: number) => {
-        if (!text && index > 0) {
+    const handleKeyPress = (e: any, index: number) => {
+        // Move to previous input on backspace
+        if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
             inputs.current[index - 1]?.focus();
         }
     };
 
     const handleVerify = () => {
         const code = otp.join('');
-        if (code.length < 4) {
-            Alert.alert('Error', 'Please enter the complete 4-digit code.');
-            return;
+        if (code.length === 6) {
+            if (flow === 'forgot_password' && email) {
+                navigation.navigate('CreateNewPassword', {
+                    email,
+                    otp: code,
+                });
+            } else {
+                navigation.goBack();
+            }
         }
-
-        // Simulate verification
-        Alert.alert('Success', 'Phone number verified successfully!', [
-            { text: 'OK', onPress: () => navigation.navigate('Main') },
-        ]);
     };
 
     const handleResend = () => {
-        setTimer(60);
-        Alert.alert('Info', 'Code resent!');
+        if (timer === 0) {
+            setTimer(30);
+            setOtp(['', '', '', '', '', '']);
+            inputs.current[0]?.focus();
+        }
     };
 
+    const contactInfo = email || 'your device';
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
+
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={{ fontSize: 24, color: COLORS.text }}>←</Text>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.backButton}
+                >
+                    <ChevronLeft size={28} color={COLORS.text} />
                 </TouchableOpacity>
+                <Text style={styles.headerTitle}>Verification</Text>
+                <View style={{ width: 28 }} />
             </View>
 
-            <View style={styles.content}>
-                <Text style={styles.title}>Verification Code</Text>
-                <Text style={styles.subtitle}>
-                    Please enter the code we just sent to your phone number.
-                </Text>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+            >
+                <ScrollView
+                    contentContainerStyle={styles.scrollContent}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.iconContainer}>
+                        <View style={styles.iconCircle}>
+                            <ShieldCheck size={48} color={COLORS.primary} />
+                        </View>
+                    </View>
 
-                <View style={styles.otpContainer}>
-                    {otp.map((digit, index) => (
-                        <TextInput
-                            key={index}
-                            ref={(ref) => {
-                                inputs.current[index] = ref;
-                            }}
-                            style={[
-                                styles.otpInput,
-                                digit ? styles.otpInputActive : null,
-                            ]}
-                            value={digit}
-                            onChangeText={(text) => handleChange(text, index)}
-                            onKeyPress={({ nativeEvent }) => {
-                                if (nativeEvent.key === 'Backspace') {
-                                    handleBackspace(digit, index);
-                                }
-                            }}
-                            keyboardType="number-pad"
-                            maxLength={1}
-                            selectTextOnFocus
-                        />
-                    ))}
-                </View>
+                    <Text style={styles.title}>Enter OTP Code</Text>
+                    <Text style={styles.subtitle}>
+                        We've sent a 6-digit verification code to {'\n'}
+                        <Text style={styles.contactText}>{contactInfo}</Text>
+                    </Text>
 
-                <Text style={styles.timerText}>
-                    {timer > 0
-                        ? `Resend code in 00:${
-                              timer < 10 ? `0${timer}` : timer
-                          }`
-                        : "Didn't receive code?"}
-                </Text>
+                    <View style={styles.otpContainer}>
+                        {otp.map((digit, index) => (
+                            <View
+                                key={index}
+                                style={[
+                                    styles.inputWrapper,
+                                    otp[index]
+                                        ? styles.inputWrapperActive
+                                        : null,
+                                ]}
+                            >
+                                <TextInput
+                                    ref={(ref) => {
+                                        inputs.current[index] = ref;
+                                    }}
+                                    style={styles.otpInput}
+                                    value={digit}
+                                    onChangeText={(text) =>
+                                        handleChange(text, index)
+                                    }
+                                    onKeyPress={(e) => handleKeyPress(e, index)}
+                                    keyboardType="number-pad"
+                                    maxLength={1}
+                                    selectTextOnFocus
+                                />
+                            </View>
+                        ))}
+                    </View>
 
-                {timer === 0 && (
-                    <TouchableOpacity onPress={handleResend}>
-                        <Text style={styles.resendText}>Resend Code</Text>
+                    <View style={styles.resendContainer}>
+                        {timer > 0 ? (
+                            <View style={styles.timerRow}>
+                                <Timer size={16} color={COLORS.gray} />
+                                <Text style={styles.timerText}>
+                                    {' '}
+                                    Resend code in {timer}s
+                                </Text>
+                            </View>
+                        ) : (
+                            <TouchableOpacity
+                                onPress={handleResend}
+                                style={styles.resendButton}
+                            >
+                                <RefreshCcw size={16} color={COLORS.primary} />
+                                <Text style={styles.resendText}>
+                                    {' '}
+                                    Resend Code
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
+
+                    <TouchableOpacity
+                        style={[
+                            styles.verifyButton,
+                            otp.join('').length < 6 && styles.disabledButton,
+                        ]}
+                        onPress={handleVerify}
+                        disabled={otp.join('').length < 6}
+                    >
+                        <Text style={styles.verifyButtonText}>Verify Now</Text>
                     </TouchableOpacity>
-                )}
-
-                <TouchableOpacity style={styles.button} onPress={handleVerify}>
-                    <Text style={styles.buttonText}>Verify</Text>
-                </TouchableOpacity>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 };
+
+export default OtpVerification;

@@ -4,54 +4,82 @@ import {
     Text,
     TouchableOpacity,
     StatusBar,
-    SafeAreaView,
+    ImageBackground,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { styles } from './Welcome.styles';
-import { RootStackParamList } from '@/src/navigation/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Utensils } from 'lucide-react-native';
+import { AuthStackParamList } from '../../../navigation/types';
+import styles from './Welcome.styles';
+import { COLORS } from '../../../constants/colors';
 
-type WelcomeScreenNavigationProp = StackNavigationProp<
-    RootStackParamList,
-    'Auth'
+type WelcomeScreenNavigationProp = NativeStackNavigationProp<
+    AuthStackParamList,
+    'Welcome'
 >;
-
 export const Welcome = () => {
     const navigation = useNavigation<WelcomeScreenNavigationProp>();
 
     const handleGetStarted = () => {
-        // Navigate to Login screen which is inside the Auth navigator
-        // We assume the parent navigator handles the stack, but for now we navigate to 'Login'
-        // Note: In a nested navigator structure, you might need navigation.navigate('Auth', { screen: 'Login' });
-        // For this port, we will assume strict mapping.
-        navigation.navigate('Login' as any);
+        navigation.navigate('Login');
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <StatusBar
                 barStyle="light-content"
-                backgroundColor={styles.container.backgroundColor}
+                translucent
+                backgroundColor="transparent"
             />
-            <View style={styles.contentContainer}>
-                <View style={styles.logoContainer}>
-                    <Text style={styles.logoText}>F</Text>
-                </View>
 
-                <Text style={styles.title}>Food for Everyone</Text>
-                <Text style={styles.subtitle}>
-                    Find the best restaurants, book tables, and order delicious
-                    food easily.
-                </Text>
+            <ImageBackground
+                source={require('../../../../assets/mobapp_images/img/Guliani-Welcome Screen.jpg')}
+                style={styles.backgroundImage}
+            >
+                <View style={styles.overlay} />
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleGetStarted}
-                    activeOpacity={0.8}
-                >
-                    <Text style={styles.buttonText}>Get Started</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+                <SafeAreaView style={styles.contentContainer}>
+                    <View style={styles.topSection}>
+                        <View style={styles.logoContainer}>
+                            <Utensils size={32} color={COLORS.white} />
+                        </View>
+                        <Text style={styles.brandName}>TableReserve</Text>
+                    </View>
+
+                    <View style={styles.bottomSection}>
+                        <Text style={styles.title}>
+                            Dining Experience, Refined.
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            Discover exceptional restaurants and secure your
+                            favorite table in seconds. Pre-order your meals for
+                            a seamless evening.
+                        </Text>
+
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleGetStarted}
+                            activeOpacity={0.9}
+                        >
+                            <Text style={styles.buttonText}>Get Started</Text>
+                        </TouchableOpacity>
+
+                        <View style={styles.footerRow}>
+                            <Text style={styles.footerText}>
+                                Already have an account?{' '}
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Login')}
+                            >
+                                <Text style={styles.loginLink}>Log In</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </ImageBackground>
+        </View>
     );
 };
+
+export default Welcome;

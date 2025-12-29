@@ -2,231 +2,238 @@ import React, { useState } from 'react';
 import {
     View,
     Text,
-    TextInput,
-    TouchableOpacity,
-    FlatList,
-    Image,
-    StatusBar,
-    SafeAreaView,
     ScrollView,
+    Image,
+    TouchableOpacity,
+    TextInput,
+    FlatList,
+    StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from './Home.styles';
-import { Category, Restaurant } from '@/src/types';
-import { COLORS } from '@/src/constants/colors';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+    Search,
+    MapPin,
+    Bell,
+    SlidersHorizontal,
+    Star,
+} from 'lucide-react-native';
+import { RootStackParamList } from '../../../navigation/types';
+import { mockRestaurants, mockUser } from '../../../services/dataService';
+import { Restaurant } from '../../../types';
+import { COLORS } from '../../../constants/colors';
+import styles from './Home.styles';
 
-// Mock Data (In a real app, this comes from dataService)
-const CATEGORIES: Category[] = [
-    {
-        id: '1',
-        name: 'Burger',
-        image: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png',
-    },
-    {
-        id: '2',
-        name: 'Pizza',
-        image: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
-    },
-    {
-        id: '3',
-        name: 'Sushi',
-        image: 'https://cdn-icons-png.flaticon.com/512/2252/2252075.png',
-    },
-    {
-        id: '4',
-        name: 'Asian',
-        image: 'https://cdn-icons-png.flaticon.com/512/3075/3075929.png',
-    },
-    {
-        id: '5',
-        name: 'Dessert',
-        image: 'https://cdn-icons-png.flaticon.com/512/3075/3075922.png',
-    },
-];
-
-const RESTAURANTS: Restaurant[] = [
-    {
-        id: '1',
-        name: 'Burger King',
-        rating: 4.5,
-        reviews: 120,
-        image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80',
-        distance: '1.2 km',
-        deliveryTime: '20-30 min',
-        minOrder: 10,
-        deliveryFee: 2.5,
-        tags: ['Burger', 'Fast Food', 'American'],
-        latitude: 41.7151,
-        longitude: 44.8271,
-        address: '123 Main St',
-    },
-    {
-        id: '2',
-        name: 'Pizza Hut',
-        rating: 4.2,
-        reviews: 85,
-        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        distance: '2.5 km',
-        deliveryTime: '30-45 min',
-        minOrder: 15,
-        deliveryFee: 3.0,
-        tags: ['Pizza', 'Italian', 'Fast Food'],
-        latitude: 41.7251,
-        longitude: 44.8371,
-        address: '456 Elm St',
-    },
-    // Add more mock data as needed
-];
-
-export const Home = () => {
-    const navigation = useNavigation<any>();
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(
-        null,
-    );
+const Home = () => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [searchQuery, setSearchQuery] = useState('');
+    const [activeCategory, setActiveCategory] = useState('All');
 
-    const renderCategory = ({ item }: { item: Category }) => (
-        <TouchableOpacity
-            style={styles.categoryItem}
-            onPress={() =>
-                setSelectedCategory(
-                    selectedCategory === item.id ? null : item.id,
-                )
-            }
-        >
-            <View
-                style={[
-                    styles.categoryImageContainer,
-                    selectedCategory === item.id && {
-                        backgroundColor: COLORS.primary,
-                    },
-                ]}
-            >
-                <Image
-                    source={{ uri: item.image }}
-                    style={[
-                        styles.categoryImage,
-                        selectedCategory === item.id && {
-                            tintColor: COLORS.white,
-                        },
-                    ]}
-                />
-            </View>
-            <Text
-                style={[
-                    styles.categoryText,
-                    selectedCategory === item.id && {
-                        color: COLORS.primary,
-                        fontWeight: 'bold',
-                    },
-                ]}
-            >
-                {item.name}
-            </Text>
-        </TouchableOpacity>
-    );
+    const categories = [
+        'All',
+        'Georgian',
+        'Italian',
+        'Asian',
+        'French',
+        'Steakhouse',
+    ];
 
-    const renderRestaurant = ({ item }: { item: Restaurant }) => (
+    const filteredRestaurants = mockRestaurants.filter((item) => {
+        const matchesCategory =
+            activeCategory === 'All' || item.cuisine === activeCategory;
+        const matchesSearch = item.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
+
+    const renderRestaurantCard = ({ item }: { item: Restaurant }) => (
         <TouchableOpacity
             style={styles.restaurantCard}
-            activeOpacity={0.9}
             onPress={() =>
                 navigation.navigate('Restaurant', { restaurantId: item.id })
             }
         >
-            <Image
-                source={{ uri: item.image }}
-                style={styles.restaurantImage}
-            />
+            <Image source={item.image} style={styles.restaurantImage} />
             <View style={styles.restaurantInfo}>
                 <View style={styles.restaurantHeader}>
                     <Text style={styles.restaurantName}>{item.name}</Text>
-                    <View style={styles.ratingContainer}>
-                        <Text style={{ color: COLORS.primary }}>★</Text>
+                    <View style={styles.ratingBadge}>
+                        <Star
+                            size={14}
+                            color={COLORS.primary}
+                            fill={COLORS.primary}
+                        />
                         <Text style={styles.ratingText}>{item.rating}</Text>
                     </View>
                 </View>
-                <View style={styles.restaurantMeta}>
-                    <Text style={{ color: COLORS.primary }}>🕒</Text>
-                    <Text style={styles.metaText}>{item.deliveryTime}</Text>
-                    <Text style={{ color: COLORS.primary }}>📍</Text>
-                    <Text style={styles.metaText}>{item.distance}</Text>
+                <Text style={styles.restaurantCuisine}>
+                    {item.cuisine} • {item.address}
+                </Text>
+                <View style={styles.bookingDetails}>
+                    <Text style={styles.availableTables}>
+                        {item.tables.filter((t) => t.isAvailable).length} tables
+                        available
+                    </Text>
+                    <TouchableOpacity
+                        style={styles.bookButton}
+                        onPress={() =>
+                            navigation.navigate('Restaurant', {
+                                restaurantId: item.id,
+                            })
+                        }
+                    >
+                        <Text style={styles.bookButtonText}>Book Now</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </TouchableOpacity>
     );
 
-    // Filter restaurants based on search and category
-    const filteredRestaurants = RESTAURANTS.filter((r) => {
-        const matchesSearch = r.name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase());
-        const matchesCategory = selectedCategory
-            ? r.tags.some(
-                  (tag) =>
-                      tag.toLowerCase() ===
-                      CATEGORIES.find(
-                          (c) => c.id === selectedCategory,
-                      )?.name.toLowerCase(),
-              )
-            : true;
-        return matchesSearch && matchesCategory;
-    });
-
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar
-                barStyle="dark-content"
-                backgroundColor={COLORS.background}
-            />
+            <StatusBar barStyle="dark-content" />
 
+            {/* Header */}
             <View style={styles.header}>
                 <View>
-                    <Text style={styles.subGreeting}>Deliver to</Text>
-                    <Text style={styles.greeting}>Home ▾</Text>
+                    <Text style={styles.locationLabel}>Location</Text>
+                    <View style={styles.locationContainer}>
+                        <MapPin size={16} color={COLORS.primary} />
+                        <Text style={styles.locationText}>
+                            Tbilisi, Georgia
+                        </Text>
+                    </View>
                 </View>
-                <Image
-                    source={{
-                        uri: 'https://randomuser.me/api/portraits/men/32.jpg',
-                    }}
-                    style={styles.profileImage}
-                />
+                <View style={styles.headerIcons}>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Bell size={24} color={COLORS.text} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Profile')}
+                    >
+                        <Image
+                            source={mockUser.avatar}
+                            style={styles.profileAvatar}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
 
-            <View style={styles.searchContainer}>
-                <Text>🔍</Text>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Find restaurants..."
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContent}
+            >
+                {/* Search Bar */}
+                <View style={styles.searchSection}>
+                    <View style={styles.searchContainer}>
+                        <Search size={20} color={COLORS.gray} />
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search restaurants, cuisines..."
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                        />
+                    </View>
+                    <TouchableOpacity style={styles.filterButton}>
+                        <SlidersHorizontal size={20} color={COLORS.white} />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Categories */}
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    style={styles.categoryContainer}
+                    contentContainerStyle={styles.categoryContent}
+                >
+                    {categories.map((cat) => (
+                        <TouchableOpacity
+                            key={cat}
+                            style={[
+                                styles.categoryItem,
+                                activeCategory === cat &&
+                                    styles.categoryItemActive,
+                            ]}
+                            onPress={() => setActiveCategory(cat)}
+                        >
+                            <Text
+                                style={[
+                                    styles.categoryText,
+                                    activeCategory === cat &&
+                                        styles.categoryTextActive,
+                                ]}
+                            >
+                                {cat}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+
+                {/* Featured Section */}
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>
+                        Featured Restaurants
+                    </Text>
+                    <TouchableOpacity>
+                        <Text style={styles.seeAllText}>See All</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <FlatList
+                    horizontal
+                    data={mockRestaurants}
+                    keyExtractor={(item) => `featured-${item.id}`}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            style={styles.featuredCard}
+                            onPress={() =>
+                                navigation.navigate('Restaurant', {
+                                    restaurantId: item.id,
+                                })
+                            }
+                        >
+                            <Image
+                                source={item.image}
+                                style={styles.featuredImage}
+                            />
+                            <View style={styles.featuredOverlay}>
+                                <Text style={styles.featuredName}>
+                                    {item.name}
+                                </Text>
+                                <View style={styles.featuredRating}>
+                                    <Star
+                                        size={12}
+                                        color={COLORS.white}
+                                        fill={COLORS.white}
+                                    />
+                                    <Text style={styles.featuredRatingText}>
+                                        {item.rating}
+                                    </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.featuredList}
                 />
-            </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View>
-                    <Text style={styles.sectionTitle}>Categories</Text>
-                    <FlatList
-                        horizontal
-                        data={CATEGORIES}
-                        renderItem={renderCategory}
-                        keyExtractor={(item) => item.id}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.categoriesContainer}
-                    />
+                {/* Near You Section */}
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>Available Near You</Text>
                 </View>
 
-                <View>
-                    <Text style={styles.sectionTitle}>Popular Near You</Text>
-                    <FlatList
-                        data={filteredRestaurants}
-                        renderItem={renderRestaurant}
-                        keyExtractor={(item) => item.id}
-                        scrollEnabled={false} // Since it's inside a ScrollView
-                        contentContainerStyle={styles.restaurantList}
-                    />
-                </View>
+                <FlatList
+                    data={filteredRestaurants}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderRestaurantCard}
+                    scrollEnabled={false}
+                />
             </ScrollView>
         </SafeAreaView>
     );
 };
+
+export default Home;
